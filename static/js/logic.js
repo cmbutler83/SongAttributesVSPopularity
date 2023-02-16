@@ -13,10 +13,9 @@ function createMap(countries){
         zoom: 3,
         layers: [base, countries]
     });
-    
+
     // Call function to create buttons
     createButtons();
-
 }
 
 // Define function to create interactive buttons for song attributes
@@ -39,10 +38,37 @@ function createMarkers(polys) {
 
     console.log(polys);
 
+    function onEach(feature, layer) {
+
+        // Add popup showing country
+        //layer.bindPopup(`<p>${feature.properties.ADMIN}</p>`);
+        // var popup = L.popup().setLatLng(layer.getBounds().getCenter())
+        // .setContent(`<p>${feature.properties.ADMIN}</p>`);
+        // layer.bindPopup(popup);
+
+        // Open popups on mouse hover 
+        layer.on('mouseover', function(d){
+            this.setStyle({
+                fillColor: 'red',
+                fillOpacity: 0.6
+            });
+            console.log(feature.properties.ADMIN);
+        });
+        layer.on('mouseout', function(e){
+            this.setStyle({
+                fillColor: 'saddlebrown',
+                fillOpacity: 0.2
+            });
+        });
+    };
+
     // Create geoJSON layer of country border line style
     var borders = L.geoJSON(polys.features, {
-        color: 'saddlebrown',
-        weight: 1
+        onEachFeature: onEach,
+        style: {
+            color: 'saddlebrown',
+            weight: 1
+        }
     });
 
     // Draw map w/border layer
