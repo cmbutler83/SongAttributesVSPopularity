@@ -9,7 +9,7 @@ function createMap(countries){
 
     // Create map
     var myMap = L.map("map", {
-        center: [10, 0],
+        center: [12, 10],
         zoom: 3,
         layers: [base, countries]
     });
@@ -22,7 +22,7 @@ function createMap(countries){
 function createButtons(){
 
     // Array to hold song attributes
-    attrs = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'valence', 'tempo', 'duration'];
+    attrs = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'valence', 'tempo', 'duration'];
     
     // Iterate through attributes
     for(i = 0; i < attrs.length; i++){
@@ -39,12 +39,6 @@ function createMarkers(polys) {
     console.log(polys);
 
     function onEach(feature, layer) {
-
-        // Add popup showing country
-        //layer.bindPopup(`<p>${feature.properties.ADMIN}</p>`);
-        // var popup = L.popup().setLatLng(layer.getBounds().getCenter())
-        // .setContent(`<p>${feature.properties.ADMIN}</p>`);
-        // layer.bindPopup(popup);
 
         // Open popups on mouse hover 
         layer.on('mouseover', function(d){
