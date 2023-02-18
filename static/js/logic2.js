@@ -17,8 +17,12 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         x: x,
         y: y,
         type: 'bar',
-        orientation: 'h'
-    }]
+        orientation: 'h',
+        marker: {
+            color: x,
+            colorscale: 'Viridis'
+        }
+    }];
 
     initbub = [{
         x: y,
@@ -29,9 +33,23 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
             size: x,
             colorscale: 'Viridis'
         }
-    }]
+    }];
+
+    sunburst = [{
+        type: 'sunburst',
+        labels: ['Pop', 'Rock', 'Indie', 'Jazz', 'Classical', 'Canadian Rock'],
+        parents: ['', 'Pop', 'Pop', 'Pop', 'Pop','Rock'],
+        values: [0, 15, 15, 5, 8, 10, 10],
+        leaf: {opacity: 0.5},
+        marker: {line: {width: 2}, colorscale: 'Viridis'},
+        outsidetextfont: {size: 20, color: '#377eb8'},
+        //insidetextorientation: 'radial'
+    }];
+
+
     Plotly.newPlot('graph2', initplot);
     Plotly.newPlot('graph3', initbub);
+    Plotly.newPlot('graph4', sunburst);
 
 });
 
