@@ -21,6 +21,7 @@ function createMap(countries){
 // Define function to create interactive buttons for song attributes
 function createButtons(){
 
+    d3.select('#attributes').append('a').property('href', '/').text('Go to Plots  ');
     // Array to hold song attributes
     attrs = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'valence', 'tempo', 'duration'];
     
