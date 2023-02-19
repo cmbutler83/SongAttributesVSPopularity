@@ -3,15 +3,10 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
 
     console.log(json);
     //document.getElementById('graph2').innerHTML = JSON.stringify(json);
-    let date = json[0].Date;
-    let temp = json[0].Temp;
-    console.log(`Date: ${date}, Temp: ${temp}`);
 
     let sample = json.slice(0, 20).sort((a, b) => b.Temp - a.Temp);
-    console.log(sample);
     let y = sample.map(item => item.Date);
     let x = sample.map(item => item.Temp);
-    console.log(x, y);
 
     initplot = [{
         x: x,
@@ -20,7 +15,7 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         orientation: 'h',
         marker: {
             color: x,
-            colorscale: 'Viridis'
+            colorscale: 'Reds'
         }
     }];
 
@@ -31,7 +26,7 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         marker: {
             color: x,
             size: x,
-            colorscale: 'Viridis'
+            colorscale: 'Reds'
         }
     }];
 
@@ -41,19 +36,21 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         parents: ['', 'Pop', 'Pop', 'Pop', 'Pop','Rock'],
         values: [0, 15, 15, 5, 8, 10, 10],
         leaf: {opacity: 0.5},
-        marker: {line: {width: 2}, colorscale: 'Viridis'},
+        marker: {line: {width:2}, colorscale: 'Reds'},
         outsidetextfont: {size: 20, color: '#377eb8'},
         //insidetextorientation: 'radial'
     }];
 
+    layout = {
+        margin: 'auto',
+        padding: 0
+    }
 
-    Plotly.newPlot('graph2', initplot);
-    Plotly.newPlot('graph3', initbub);
-    Plotly.newPlot('graph4', sunburst);
+    Plotly.newPlot('graph2', initplot, layout);
+    Plotly.newPlot('graph4', initbub);
+    Plotly.newPlot('graph3', sunburst, layout);
 
 });
-
-
 
 function clickFunc(){
     console.log('You clicked me!')
