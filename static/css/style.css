@@ -5,3 +5,14 @@
 #map {
     height: 900px;
 }
+
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+#graph2,
+#graph3 {
+    width: 50%;
+}
