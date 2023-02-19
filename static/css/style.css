@@ -6,7 +6,13 @@
     height: 900px;
 }
 
-
+.info {
+    width: 300px;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 10%;
+    text-align: center;
+}
 
 
 

@@ -22,7 +22,7 @@ function createMap(countries){
     var infoBox = L.control({position: 'bottomleft'});
     infoBox.onAdd = function(){
         var div = L.DomUtil.create('div', 'info box');
-        div.innerHTML += '<h1>Song Attributes for</h1><div id="this_country">Each Country</div>';
+        div.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><p><div id="attrs">Click for more info...</div></p>';
         return div;
     };
     infoBox.addTo(myMap);
@@ -52,6 +52,7 @@ function createMarkers(polys) {
     console.log(polys);
 
     var country = '';
+    var clickd = '';
     function onEach(feature, layer) {
 
         // Open popups on mouse hover 
@@ -69,6 +70,12 @@ function createMarkers(polys) {
                 fillOpacity: 0.2
             });
         });
+        layer.on('click', function(c){
+            clickd = feature.properties.ADMIN;
+            console.log(clickd);
+            document.getElementById('attrs').innerHTML = `Song attributes for ${clickd} populate here...`
+            // call attr by country function here
+        })
     };
 
     // Create geoJSON layer of country border line style
