@@ -5,6 +5,7 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
     //document.getElementById('graph2').innerHTML = JSON.stringify(json);
 
     let sample = json.slice(0, 20).sort((a, b) => b.Temp - a.Temp);
+    let samp = json.slice(0,50)
     let y = sample.map(item => item.Date);
     let x = sample.map(item => item.Temp);
 
@@ -41,15 +42,23 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         //insidetextorientation: 'radial'
     }];
 
-    layout = {
-        margin: 'auto',
-        padding: 0
-    }
+    hist = [{
+        x: samp.map(item => item.Temp),
+        type: 'histogram',
+        marker: {
+            color: 'orangered',
+            opacity: 0.4,
+            line: {
+                color: 'red',
+                width: 1
+            }
+        }
+    }];
 
-    Plotly.newPlot('graph2', initplot, layout);
+    Plotly.newPlot('graph2', initplot);
     Plotly.newPlot('graph4', initbub);
-    Plotly.newPlot('graph3', sunburst, layout);
-
+    Plotly.newPlot('graph3', sunburst);
+    Plotly.newPlot('graph5', hist);
 });
 
 function clickFunc(){
