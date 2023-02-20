@@ -1,3 +1,4 @@
+var at = '';
 // Define function to create map
 function createMap(countries){
 
@@ -65,10 +66,11 @@ function createMarkers(polys) {
             document.getElementById('this_country').innerHTML = country
         });
         layer.on('mouseout', function(e){
-            this.setStyle({
-                fillColor: 'saddlebrown',
-                fillOpacity: 0.2
-            });
+            //this.setStyle({
+                //fillColor: 'saddlebrown',
+                //fillOpacity: 0.2
+            //});
+            borders.resetStyle(this);
         });
         layer.on('click', function(c){
             clickd = feature.properties.ADMIN;
@@ -79,14 +81,32 @@ function createMarkers(polys) {
     };
 
     // Create geoJSON layer of country border line style
-    var borders = L.geoJSON(polys.features, {
-        onEachFeature: onEach,
-        style: {
-            color: 'saddlebrown',
-            weight: 1
-        }
-    });
+    // var borders = L.geoJSON(polys.features, {
+    //     onEachFeature: onEach,
+    //     style: {
+    //         color: 'saddlebrown',
+    //         weight: 1
+    //     }
+    // });
 
+    function getColor(feature){
+        return feature.properties.ADMIN.length
+    };
+
+    var borders = L.choropleth(polys, {
+        valueProperty: getColor,
+        scale: ["white", "green"],
+        steps: 20,
+        mode: "q",
+        style: {
+          // Border color
+          color: "saddlebrown",
+          weight: 1,
+          fillOpacity: 0.5
+        },
+        onEachFeature: onEach,
+    });
+    console.log(borders);
     // Draw map w/border layer
     createMap(borders);
 }
@@ -98,6 +118,7 @@ d3.json(polys).then(createMarkers);
 // Define button click function
 function buttonPressed(attribute){
     console.log(attribute);
+    at = attribute;
 
     // Create or call choropleth function here
 }
