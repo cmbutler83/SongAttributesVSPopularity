@@ -1,4 +1,3 @@
-var at = '';
 // Define function to create map
 function createMap(countries){
 
@@ -17,24 +16,42 @@ function createMap(countries){
     // Call function to create buttons
     createButtons();
 
-    // Add legend here?
+    // Create legend
+    var legend = L.control({position: 'topright'});
+    legend.onAdd = function(){
+        var div = L.DomUtil.create('div', 'info legend')
+        var limits = countries.options.limits;
+        var colors = countries.options.colors;
+        var labels = [];
 
-        
-    var infoBox = L.control({position: 'bottomleft'});
-    infoBox.onAdd = function(){
-        var div = L.DomUtil.create('div', 'info box');
-        div.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><p><div id="attrs">Click for more info...</div></p>';
+        div.innerHTML = '<h2 id="legend_title">Attribute</h2><hr><div class="labels"><div class="min">' + limits[0] + '</div> \
+        <div class="max">' + limits[limits.length - 1] + '</div></div>';
+
+        limits.forEach(function (limit, index) {
+            labels.push('<li style="background-color: ' + colors[index] + '"></li>');
+        });
+        div.innerHTML += '<ul>' + labels.join('') + '</ul>';
         return div;
     };
-    infoBox.addTo(myMap);
+    legend.addTo(myMap);
 
+
+    // Create info box to display results for song attributes by country
+    var infoBox = L.control({position: 'bottomleft'});
+    infoBox.onAdd = function(){
+        var div2 = L.DomUtil.create('div', 'info box');
+        div2.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><p><div id="attrs">Click for more info...</div></p>';
+        return div2;
+    };
+    infoBox.addTo(myMap);
 
 }
 
 // Define function to create interactive buttons for song attributes
 function createButtons(){
 
-    d3.select('#attributes').append('a').property('href', '/').text('Go to Plots  ');
+    d3.select('#top').append('a').property('href', '/').text('Go to Plots  ');
+
     // Array to hold song attributes
     attrs = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'valence', 'tempo', 'duration'];
     
@@ -43,7 +60,7 @@ function createButtons(){
 
         // Create button for each attribute
         attr = attrs[i];
-        d3.select('#attributes').append('button').text(attr).property('value', attr.toString()).attr('onclick', 'buttonPressed(this.value)');
+        d3.select('#top').append('button').text(attr).property('value', attr.toString()).attr('onclick', 'buttonPressed(this.value)');
     }
 }
 
@@ -54,59 +71,72 @@ function createMarkers(polys) {
 
     var country = '';
     var clickd = '';
+    
     function onEach(feature, layer) {
 
         // Open popups on mouse hover 
         layer.on('mouseover', function(d){
             this.setStyle({
-                fillColor: 'red',
+                fillColor: 'lime',
                 fillOpacity: 0.6
             });
             country = feature.properties.ADMIN;
             document.getElementById('this_country').innerHTML = country
         });
         layer.on('mouseout', function(e){
-            //this.setStyle({
-                //fillColor: 'saddlebrown',
-                //fillOpacity: 0.2
-            //});
+
+            // will need to be cautious about adjusting this per each choropleth...
             borders.resetStyle(this);
+
         });
         layer.on('click', function(c){
             clickd = feature.properties.ADMIN;
-            console.log(clickd);
             document.getElementById('attrs').innerHTML = `Song attributes for ${clickd} populate here...`
             // call attr by country function here
+
+
+
+
+
         })
     };
-
-    // Create geoJSON layer of country border line style
-    // var borders = L.geoJSON(polys.features, {
-    //     onEachFeature: onEach,
-    //     style: {
-    //         color: 'saddlebrown',
-    //         weight: 1
-    //     }
-    // });
 
     function getColor(feature){
         return feature.properties.ADMIN.length
     };
 
+    // test fuunction to try to change to on button click...
+    function getcolor2(feature){
+        return feature.properties.ADMIN.length % 2
+    }
+
+
+
+
     var borders = L.choropleth(polys, {
         valueProperty: getColor,
         scale: ["white", "green"],
-        steps: 20,
+        steps: 10,
         mode: "q",
         style: {
-          // Border color
-          color: "saddlebrown",
-          weight: 1,
-          fillOpacity: 0.5
+          color: "saddlebrown", // default color
+          weight: 1, // default weight
+          fillOpacity: 0.5 // default opacity is 0.2
         },
         onEachFeature: onEach,
     });
+
+    // test change style, not working...
+    borders.setStyle({
+        valueProperty: getcolor2,
+        scale: ["white", "blue"]
+    });
+
+
+
+
     console.log(borders);
+
     // Draw map w/border layer
     createMap(borders);
 }
@@ -117,8 +147,11 @@ d3.json(polys).then(createMarkers);
 
 // Define button click function
 function buttonPressed(attribute){
-    console.log(attribute);
-    at = attribute;
+    document.getElementById('legend_title').innerHTML = attribute;
 
-    // Create or call choropleth function here
+    // Update choropleth & legend function here
+
+
+
+
 }
