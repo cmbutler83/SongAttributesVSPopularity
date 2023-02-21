@@ -16,7 +16,7 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         orientation: 'h',
         marker: {
             color: x,
-            colorscale: 'Reds'
+            colorscale: 'Viridis'
         }
     }];
 
@@ -27,7 +27,7 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         marker: {
             color: x,
             size: x,
-            colorscale: 'Reds'
+            colorscale: 'Viridis'
         }
     }];
 
@@ -37,7 +37,7 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         parents: ['', 'Pop', 'Pop', 'Pop', 'Pop','Rock'],
         values: [0, 15, 15, 5, 8, 10, 10],
         leaf: {opacity: 0.5},
-        marker: {line: {width:2}, colorscale: 'Reds'},
+        marker: {line: {width:2}, colorscale: 'Viridis'},
         outsidetextfont: {size: 20, color: '#377eb8'},
         //insidetextorientation: 'radial'
     }];
@@ -46,19 +46,25 @@ fetch(initUrl).then(response =>response.json()).then(function(json){
         x: samp.map(item => item.Temp),
         type: 'histogram',
         marker: {
-            color: 'orangered',
-            opacity: 0.4,
+            color: 'limegreen',
+            opacity: 0.8,
             line: {
-                color: 'red',
+                color: 'white',
                 width: 1
             }
         }
     }];
 
+    layout = {
+        paper_bgcolor: 'black',
+        plot_bgcolor: 'black',
+        font: { color: 'white'}
+    }
+
     Plotly.newPlot('graph2', initplot);
     Plotly.newPlot('graph4', initbub);
     Plotly.newPlot('graph3', sunburst);
-    Plotly.newPlot('graph5', hist);
+    Plotly.newPlot('graph5', hist, layout);
 });
 
 function clickFunc(){
