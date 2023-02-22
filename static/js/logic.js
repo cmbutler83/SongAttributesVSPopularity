@@ -1,3 +1,4 @@
+var countryData = {};
 // Define function to create map
 function createMap(countries){
 
@@ -17,29 +18,14 @@ function createMap(countries){
     createButtons();
 
     // Create legend
-    var legend = L.control({position: 'topright'});
-    legend.onAdd = function(){
-        var div = L.DomUtil.create('div', 'info legend')
-        var limits = countries.options.limits;
-        var colors = countries.options.colors;
-        var labels = [];
-
-        div.innerHTML = '<h2 id="legend_title">Attribute</h2><hr><div class="labels"><div class="min">' + limits[0] + '</div> \
-        <div class="max">' + limits[limits.length - 1] + '</div></div>';
-
-        limits.forEach(function (limit, index) {
-            labels.push('<li style="background-color: ' + colors[index] + '"></li>');
-        });
-        div.innerHTML += '<ul>' + labels.join('') + '</ul>';
-        return div;
-    };
-    legend.addTo(myMap);
-
+    if(countries.options.hasChoro){
+        createLegend(countries, myMap);
+    }
 
     // Create info box to display results for song attributes by country
     var infoBox = L.control({position: 'bottomleft'});
     infoBox.onAdd = function(){
-        var div2 = L.DomUtil.create('div', 'info box');
+        var div2 = L.DomUtil.create('div', 'info');
         div2.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><p><div id="attrs">Click for more info...</div></p>';
         return div2;
     };
@@ -64,8 +50,31 @@ function createButtons(){
     }
 }
 
+function createLegend(countries, map){
+    var legend = L.control({position: 'topright'});
+    legend.onAdd = function(){
+        var div = L.DomUtil.create('div', 'info legend')
+        var limits = countries.options.limits;
+        var colors = countries.options.colors;
+        var labels = [];
+
+        div.innerHTML = '<h2 id="legend_title">Attribute</h2><hr><div class="labels"><div class="min">' + limits[0] + '</div> \
+        <div class="max">' + limits[limits.length - 1] + '</div></div>';
+
+        limits.forEach(function (limit, index) {
+            labels.push('<li style="background-color: ' + colors[index] + '"></li>');
+        });
+        div.innerHTML += '<ul>' + labels.join('') + '</ul>';
+        return div;
+    };
+    legend.addTo(map);
+}
+
+
+
+
 // Define function to draw country borders
-function createMarkers(polys) {
+function createMarkers(polys, att) {
 
     console.log(polys);
 
@@ -91,7 +100,7 @@ function createMarkers(polys) {
         });
         layer.on('click', function(c){
             clickd = feature.properties.ADMIN;
-            document.getElementById('attrs').innerHTML = `Song attributes for ${clickd} populate here...`
+            document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
             // call attr by country function here
 
 
@@ -111,7 +120,14 @@ function createMarkers(polys) {
     }
 
 
-
+    // var borders = L.geoJson(polys, {
+    //     style: {
+    //         color: 'saddlebrown',
+    //         weight: 1,
+    //         fillOpacity: 0.2
+    //     },
+    //     onEachFeature: onEach
+    // })
 
     var borders = L.choropleth(polys, {
         valueProperty: getColor,
@@ -124,15 +140,35 @@ function createMarkers(polys) {
           fillOpacity: 0.5 // default opacity is 0.2
         },
         onEachFeature: onEach,
+        hasChoro: true
     });
 
     // test change style, not working...
-    borders.setStyle({
-        valueProperty: getcolor2,
-        scale: ["white", "blue"]
-    });
+    console.log(borders.options.hasChoro);
 
+    // var borders = L.choropleth(polys, {
+    //     valueProperty: getcolor2,
+    //     scale: ['white', 'blue'],
+    //     steps: 7,
+    //     mode: 'e',
+    //     style: {
+    //         color: 'purple',
+    //         weight: 1,
+    //         fillOpacity: 0.5
+    //     },
+    //     onEachFeature: onEach,
+    //     hasChoro: true
+    // });
 
+    // var borders = L.choropleth(polys, {
+    //     style: {
+    //         color: 'saddlebrown',
+    //         weight: 1,
+    //         fillOpacity: 0.2
+    //     },
+    //     onEachFeature: onEach,
+    //     hasChoro: false
+    // });
 
 
     console.log(borders);
@@ -143,15 +179,16 @@ function createMarkers(polys) {
 
 // Get country border polygon info from file & call draw marker function when received
 var polys = 'static/js/countries.geojson'
-d3.json(polys).then(createMarkers);
+d3.json(polys).then(function(data){
+    countryData = data;
+    createMarkers(data, null);
+});
 
 // Define button click function
 function buttonPressed(attribute){
-    document.getElementById('legend_title').innerHTML = attribute;
 
     // Update choropleth & legend function here
-
-
-
+    //createMarkers(countryData, attribute);
+    document.getElementById('legend_title').innerHTML = attribute;
 
 }
