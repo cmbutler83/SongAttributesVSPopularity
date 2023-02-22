@@ -93,6 +93,7 @@ function updateMap(countries, att){
 
 // Define function to draw country borders
 function createMarkers(polys, att) {
+    console.log(polys)
 
     var country = '';
     var clickd = '';
