@@ -1,3 +1,4 @@
+// Global variables
 var countryData;
 var myMap;
 var first = true;
@@ -28,6 +29,7 @@ function createMap(countries){
         div2.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><p><div id="attrs">Click for more info...</div></p>';
         return div2;
     };
+    // Add info box to map
     infoBox.addTo(myMap);
 };
 
@@ -48,10 +50,13 @@ function createButtons(){
     }
 }
 
+// Define function to update map on button clicks
 function updateMap(countries, att){
     if(!first){
+        // remove previous legend if exists
         legend.remove(myMap);
     }
+    // Define new legend
     legend = L.control({position: 'topright'});
     legend.onAdd = function(){
         var div = L.DomUtil.create('div', 'info legend')
@@ -59,22 +64,29 @@ function updateMap(countries, att){
         var colors = countries.options.colors;
         var labels = [];
 
+        // Create legend labels
         div.innerHTML = '<h2 id="legend_title">'+ att +'</h2><hr><div class="labels"><div class="min">' + limits[0] + '</div> \
         <div class="max">' + limits[limits.length - 1] + '</div></div>';
 
+        // Add legend colors & return div
         limits.forEach(function (limit, index) {
             labels.push('<li style="background-color: ' + colors[index] + '"></li>');
         });
         div.innerHTML += '<ul>' + labels.join('') + '</ul>';
         return div;
     };
+    // Add legend to map
     legend.addTo(myMap);
     
+    // Remove previous choropleth if exists
     if(!first){
         myMap.removeLayer(c);
     }
+    // Add requested choropleth
     myMap.addLayer(countries);
+    // Save this layer to remove on the next round
     c = countries;
+    // Note that we are not on the first round anymore
     first = false;
 };
 
@@ -84,6 +96,8 @@ function createMarkers(polys, att) {
 
     var country = '';
     var clickd = '';
+
+    // Function to choose color of highlighted country on mouseover
     var highlight = function(){
         if(att === null){
             return 'red'
@@ -92,8 +106,9 @@ function createMarkers(polys, att) {
         }else {
             return 'cyan'
         }
-    }
+    };
     
+    // Define interactivity options for each country
     function onEach(feature, layer) {
 
         //Hightlight country on mouseover
@@ -118,10 +133,10 @@ function createMarkers(polys, att) {
 
 
 
-        })
+        });
     };
 
-
+    // Style options for choropleth
     function getStyle(){
         if(att === null){
             return {
@@ -138,6 +153,7 @@ function createMarkers(polys, att) {
         }
     };
 
+    // Values for choropleth
     function propVal(feature){
         if(att === null){
             return null
@@ -146,8 +162,9 @@ function createMarkers(polys, att) {
         } else {
             return feature.properties.ADMIN.length % 2
         }
-    }
+    };
 
+    // Choropleth color scale
     var propScale = function (){
         if(att === null){
             return null
@@ -156,9 +173,9 @@ function createMarkers(polys, att) {
         } else {
             return ['white', 'blue']
         }
-    }
+    };
 
-
+    // Number of steps in choropleth
     var propSteps = function(){
         if(att === null){
             return null
@@ -167,17 +184,18 @@ function createMarkers(polys, att) {
         } else {
             return 9
         }
-    }
-
+    };
+    
+    // Mode of choropleth
     var propMode = function(){
         if(att === null){
             return null
         } else {
             return 'q'
         }
-    }
+    };
 
-   
+   // Generate choropleth with preferred styling
     var borders = L.choropleth(polys, {
         valueProperty: propVal,
         scale: propScale(),
@@ -194,19 +212,21 @@ function createMarkers(polys, att) {
     } else {
         // Update choropleth & legend on button press
         updateMap(borders, att);
-    }
-}
+    };
+};
 
 // Get country border polygon info from file & call draw marker function when received
 var polys = 'static/js/countries.geojson'
 d3.json(polys).then(function(data){
+    // Save data for future references
     countryData = data;
+    // Generate map
     createMarkers(data, null);
 });
 
 // Define button click function
 function buttonPressed(attribute){
 
-    // Update choropleth & legend function
+    // Update choropleth & legend w/new attribute
     createMarkers(countryData, attribute);
 };
