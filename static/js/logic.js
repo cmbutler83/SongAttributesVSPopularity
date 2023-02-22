@@ -84,13 +84,22 @@ function createMarkers(polys, att) {
 
     var country = '';
     var clickd = '';
+    var highlight = function(){
+        if(att === null){
+            return 'red'
+        } else if(att === 'tempo'){
+            return 'lime'
+        }else {
+            return 'cyan'
+        }
+    }
     
     function onEach(feature, layer) {
 
         //Hightlight country on mouseover
         layer.on('mouseover', function(d){
             this.setStyle({
-                fillColor: 'lime',
+                fillColor: highlight(),
                 fillOpacity: 0.6
             });
             // Show country name in infobox
@@ -112,57 +121,73 @@ function createMarkers(polys, att) {
         })
     };
 
-    // test functions for choropleths
-    function getColor(feature){
-        return feature.properties.ADMIN.length
-    };
 
-    // test fuunction to try to change to on button click...
-    function getcolor2(feature){
-        return feature.properties.ADMIN.length % 2
-    }
-
-    // Default colors for map on first load
-    if(att === null){
-        var borders = L.choropleth(polys, {
-            style: {
+    function getStyle(){
+        if(att === null){
+            return {
                 color: 'saddlebrown',
                 weight: 1,
                 fillOpacity: 0.2
-            },
-            onEachFeature: onEach,
-            hasChoro: false
-        });
-    } else if (att === 'tempo') {
-        var borders = L.choropleth(polys, {
-            valueProperty: getColor,
-            scale: ["white", "green"],
-            steps: 10,
-            mode: "q",
-            style: {
-              color: "saddlebrown", // default color
-              weight: 1, // default weight
-              fillOpacity: 0.5 // default opacity is 0.2
-            },
-            onEachFeature: onEach,
-            hasChoro: true
-        });
-    } else {
-        var borders = L.choropleth(polys, {
-            valueProperty: getcolor2,
-            scale: ['white', 'blue'],
-            steps: 9,
-            mode: 'q',
-            style: {
-                color: 'purple',
+            }
+        } else {
+            return {
+                color: 'grey',
                 weight: 1,
                 fillOpacity: 0.5
-            },
-            onEachFeature: onEach,
-            hasChoro: true
-        });
+            }
+        }
+    };
+
+    function propVal(feature){
+        if(att === null){
+            return null
+        } else if(att === 'tempo'){
+            return feature.properties.ADMIN.length
+        } else {
+            return feature.properties.ADMIN.length % 2
+        }
     }
 
+    var propScale = function (){
+        if(att === null){
+            return null
+        } else if(att === 'tempo'){
+            return ['white', 'green']
+        } else {
+            return ['white', 'blue']
+        }
+    }
+
+
+    var propSteps = function(){
+        if(att === null){
+            return null
+        } else if(att === 'tempo') {
+            return 10
+        } else {
+            return 9
+        }
+    }
+
+    var propMode = function(){
+        if(att === null){
+            return null
+        } else {
+            return 'q'
+        }
+    }
+
+   
+    var borders = L.choropleth(polys, {
+        valueProperty: propVal,
+        scale: propScale(),
+        steps: propSteps(),
+        mode: propMode(),
+        style: getStyle(),
+        onEachFeature: onEach
+    });
+
+    
     if(att === null){
         // First pass, draw map
         createMap(borders);
