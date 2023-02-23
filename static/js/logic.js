@@ -15,7 +15,7 @@ function createMap(countries){
 
     // Create map
     myMap = L.map("map", {
-        center: [12, 10],
+        center: [16, 8],
         zoom: 3,
         layers: [base, countries]
     });
@@ -27,7 +27,7 @@ function createMap(countries){
     var infoBox = L.control({position: 'bottomleft'});
     infoBox.onAdd = function(){
         var div2 = L.DomUtil.create('div', 'info');
-        div2.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><p><div id="attrs">Click for more info...</div></p>';
+        div2.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><h4><div id="attrs">Click for more info...</div></h4>';
         return div2;
     };
     // Add info box to map
@@ -37,7 +37,9 @@ function createMap(countries){
 // Define function to create interactive buttons for song attributes
 function createButtons(){
 
-    d3.select('#top').append('a').property('href', '/').text('Go to Plots  ');
+    d3.select('#top').append('a').property('href', '/')
+    .property('id', 'home')
+    .text('Back to Dashboard Page');
 
     // Array to hold song attributes
     attrs = ['DANCEABILITY', 'ENERGY', 'LOUDNESS', 'SPEECHINESS', 'ACOUSTICNESS', 'VALENCE', 'TEMPO', 'DURATION'];
@@ -47,7 +49,10 @@ function createButtons(){
 
         // Create button for each attribute
         attr = attrs[i];
-        d3.select('#top').append('button').text(attr).property('value', attr.toString()).attr('onclick', 'buttonPressed(this.value)');
+        d3.select('#top').append('button').text(attr)
+            .property('value', attr.toString())
+            .property('id', `button${i}`)
+            .attr('onclick', 'buttonPressed(this.value)');
     }
 }
 
@@ -60,7 +65,7 @@ function updateMap(countries, att){
     // Define new legend
     legend = L.control({position: 'topright'});
     legend.onAdd = function(){
-        var div = L.DomUtil.create('div', 'info legend')
+        var div = L.DomUtil.create('div', 'legend')
         var limits = countries.options.limits;
         var colors = countries.options.colors;
         var labels = [];
@@ -101,13 +106,11 @@ function createMarkers(polys, att) {
     // Function to choose color of highlighted country on mouseover
     var highlight = function(){
         if(att === null){
-            return 'red'
-        } else if(att === attrs[6]){
-            return 'lime'
-        } else if(att === attrs[2]){
-            return 'fuchsia'
-        } else if(att === attrs[7]){
+            return 'ghostwhite' 
+        } else if(att === attrs[0] || att === attrs[1] || att === attrs[2]){
             return 'yellow'
+        } else if(att === attrs[3] || att === attrs[4]){
+            return 'lime'
         } else {
             return 'cyan'
         }
@@ -120,7 +123,7 @@ function createMarkers(polys, att) {
         layer.on('mouseover', function(d){
             this.setStyle({
                 fillColor: highlight(),
-                fillOpacity: 0.6
+                fillOpacity: 0.8
             });
             // Show country name in infobox
             country = feature.properties.ADMIN;
@@ -132,15 +135,26 @@ function createMarkers(polys, att) {
         // Reset style on mouseout
         layer.on('mouseout', function(e){
             borders.resetStyle(this);
+            if(clickd){
+                document.getElementById('this_country').innerHTML = clickd
+            } else {
+                document.getElementById('this_country').innerHTML = 'Each Country'
+                document.getElementById('attrs').innerHTML = 'Click for more info...'
+            }
         });
         // Show country's song attribute info in info box on mouse click
         layer.on('click', function(c){
             clickd = feature.properties.ADMIN;
             if(clickd === 'China'){
+                clickd = 'Hong Kong';
                 document.getElementById('attrs').innerHTML = 'Spotify blocked in mainland China, data is for Hong Kong ONLY'
             } else {
                 document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
             }
+            this.setStyle({
+                color:'red',
+                weight:2
+            });
             // call attr by country function here
 
 
@@ -160,7 +174,7 @@ function createMarkers(polys, att) {
             return {
                 color: 'grey',
                 weight: 1,
-                fillOpacity: 0.5
+                fillOpacity: 0.6
             }
         }
     };
@@ -178,16 +192,20 @@ function createMarkers(polys, att) {
     var propScale = function (){
         if(att === null){
             return null
-        } else if(att === attrs[6]){
-            return ['white', 'green']
-        } else if(att === attrs[3]){
-            return ['white', 'indigo']
+        } else if(att === attrs[0]){
+            return ['white', 'darkkhaki']
+        } else if(att === attrs[1]){
+            return ['white', 'olive']
         } else if(att === attrs[2]){
-            return ['white', 'blueviolet']
+            return ['white', 'olivedrab']
+        } else if(att === attrs[3]){
+            return ['white', 'forestgreen']
+        } else if(att === attrs[4]){
+            return ['white', 'seagreen']
         } else if(att === attrs[5]){
             return ['white', 'teal']
-        } else if (att === attrs[7]){
-            return ['white', 'olive']
+        } else if(att === attrs[6]){
+            return ['white', 'royalblue']
         } else {
             return ['white', 'blue']
         }
@@ -244,10 +262,10 @@ d3.json(polys).then(function(data){
 function buttonPressed(attribute){
 
     // Pass chosen attribute to our Flask app to get each country's data
-    let url = `http://127.0.0.1:5000/attributes/${attribute}`
+    let url = `/attributes/${attribute}`
     fetch(url).then(response => response.json())
     .then(json => {
-    
+        console.log(json);
         // Join JSON to existing GeoJSON data
         let joinedGJ = JSON.parse(JSON.stringify(countryData));
         for (let i = 0; i < joinedGJ.features.length; i++){

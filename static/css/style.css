@@ -1,30 +1,67 @@
 /* styles for map.html */
 #top {
-    height: 30px;
+    height: 50px;
 }
 
 #map {
     height: 900px;
 }
 
+#home {
+    padding: 5px 10px;
+    margin: 5px 60px 5px 5px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
+    font: 20px 'Kodchasan', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: saddlebrown;
+    background-color: khaki;
+}
+
+#home:link {
+    text-decoration: none;
+}
+#home:visited {
+    text-decoration: none;
+}
+
+#home:hover {
+    box-shadow: 2px 2px 5px 1px black;
+    text-decoration: none;
+}
+
+#home:active {
+    outline-color: white;
+    outline-style: solid;
+    box-shadow: 0px 0px 0px 0px black;
+    text-decoration: none;
+}
+
 .info {
     color: saddlebrown;
     width: 300px;
+    min-height: 220px;
     background-color: rgba(255,255,255,0.8);
     padding: 10px 20px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
     border-radius: 5px;
     text-align: center;
-    font: 12px Arial, Helvetica, sans-serif;
+    /* font: 12px Arial, Helvetica, sans-serif; */
+    font: 14px 'Kodchasan', sans-serif;
 }
 
 .legend {
+    text-align: center;
     color: saddlebrown;
-    padding: 6px 8px;
-    font: 12px Arial, Helvetica, sans-serif;
+    width: 350px;
+    padding: 10px 30px;
+    /* font: 12px Arial, Helvetica, sans-serif; */
+    font: 16px 'Kodchasan', sans-serif;
     font-weight: bold;
     background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
     border-radius: 5px;
 }
 .legend ul {
@@ -46,6 +83,58 @@
     float: right;
 }
 
+button {
+    padding: 5px 15px;
+    margin: 0px 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
+    font: 20px 'Kodchasan', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#button0 {
+    background-color: darkkhaki;
+    color: white;
+}
+#button1 {
+    background-color: olive;
+    color: white;
+}
+#button2 {
+    background-color: olivedrab;
+    color: white;
+}
+#button3 {
+    background-color: forestgreen;
+    color: white;
+}
+#button4 {
+    background-color: seagreen;
+    color: white;
+}
+#button5 {
+    background-color: teal;
+    color: white;
+}
+#button6 {
+    background-color: royalblue;
+    color: white;
+}
+#button7 {
+    background-color: blue;
+    color: white;
+}
+
+button:hover {
+    box-shadow: 2px 2px 5px 1px black;
+}
+button:active {
+    outline-color: white;
+    outline-style: solid;
+    box-shadow: 0px 0px 0px 0px black;
+}
 
 /* styles for plots.html */
 .container {
