@@ -93,7 +93,6 @@ function updateMap(countries, att){
 
 // Define function to draw country borders
 function createMarkers(polys, att) {
-    console.log(polys)
 
     var country = '';
     var clickd = '';
@@ -158,10 +157,8 @@ function createMarkers(polys, att) {
     function propVal(feature){
         if(att === null){
             return null
-        } else if(att === 'tempo'){
-            return feature.properties.ADMIN.length
         } else {
-            return feature.properties.ADMIN.length % 2
+            return feature.properties.value
         }
     };
 
@@ -228,6 +225,21 @@ d3.json(polys).then(function(data){
 // Define button click function
 function buttonPressed(attribute){
 
-    // Update choropleth & legend w/new attribute
-    createMarkers(countryData, attribute);
+    // Pass chosen attribute to our Flask app to get each country's data
+    let url = `http://127.0.0.1:5000/attributes/${attribute}`
+    fetch(url).then(response => response.json())
+    .then(json => {
+    
+        // Join JSON to existing GeoJSON data
+        let joinedGJ = JSON.parse(JSON.stringify(countryData));
+        for (let i = 0; i < joinedGJ.features.length; i++){
+            const properties = joinedGJ.features[i].properties
+            joinedGJ.features[i].properties = {
+                ...properties,
+                ...json.find((item) => item.country === properties.ADMIN),
+            }
+        }
+        // Update choropleth & legend w/new attribute
+        createMarkers(joinedGJ, attribute);
+    });
 };
