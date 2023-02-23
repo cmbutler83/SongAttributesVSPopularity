@@ -15,7 +15,7 @@ app = Flask(__name__)
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("postgresql://postgres:postgres@localhost:5432/<databaseName>")
+engine = create_engine("sqlite:///Resources/songs_complete_db.sqlite")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -33,6 +33,7 @@ session = Session(engine)
 #chart_rank = Base.classes.chart_rank
 #songs = Base.classes.songs
 #song_attributes = Base.classes.song_attributes
+#coolness = Base.classes.coolness
 
 #################################################
 # Flask Routes
@@ -41,9 +42,27 @@ session = Session(engine)
 def home():
    return render_template('index.html')
 
-@app.route('/attributes')
-def attributes():
 
+
+
+
+#select an attribute and return the attribute's value for each country
+@app.route('/<attribute>')
+def attributes():
+   #create the attributes variable that the user selected
+   attribute = 
+
+   # Create our session (link) from Python to the DB, <name>.sqlite
+   session = Session(engine)
+
+   # Perform a query to retrieve the data and then close the session
+   attributes_results = engine.execute(<insert query here>, attribute).fetchall()
+   session.close()
+
+
+
+
+#select a country and return all attributes and values for the country
 @app.route('/country')
 def attributes():
 
