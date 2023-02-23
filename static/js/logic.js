@@ -1,4 +1,5 @@
 // Global variables
+var attrs;
 var countryData;
 var myMap;
 var first = true;
@@ -39,7 +40,7 @@ function createButtons(){
     d3.select('#top').append('a').property('href', '/').text('Go to Plots  ');
 
     // Array to hold song attributes
-    attrs = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'valence', 'tempo', 'duration'];
+    attrs = ['DANCEABILITY', 'ENERGY', 'LOUDNESS', 'SPEECHINESS', 'ACOUSTICNESS', 'VALENCE', 'TEMPO', 'DURATION'];
     
     // Iterate through attributes
     for(i = 0; i < attrs.length; i++){
@@ -101,9 +102,13 @@ function createMarkers(polys, att) {
     var highlight = function(){
         if(att === null){
             return 'red'
-        } else if(att === 'tempo'){
+        } else if(att === attrs[6]){
             return 'lime'
-        }else {
+        } else if(att === attrs[2]){
+            return 'fuchsia'
+        } else if(att === attrs[7]){
+            return 'yellow'
+        } else {
             return 'cyan'
         }
     };
@@ -119,6 +124,9 @@ function createMarkers(polys, att) {
             });
             // Show country name in infobox
             country = feature.properties.ADMIN;
+            if(country === 'China'){
+                country = 'Hong Kong'
+            }
             document.getElementById('this_country').innerHTML = country
         });
         // Reset style on mouseout
@@ -128,7 +136,11 @@ function createMarkers(polys, att) {
         // Show country's song attribute info in info box on mouse click
         layer.on('click', function(c){
             clickd = feature.properties.ADMIN;
-            document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
+            if(clickd === 'China'){
+                document.getElementById('attrs').innerHTML = 'Spotify blocked in mainland China, data is for Hong Kong ONLY'
+            } else {
+                document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
+            }
             // call attr by country function here
 
 
@@ -166,8 +178,16 @@ function createMarkers(polys, att) {
     var propScale = function (){
         if(att === null){
             return null
-        } else if(att === 'tempo'){
+        } else if(att === attrs[6]){
             return ['white', 'green']
+        } else if(att === attrs[3]){
+            return ['white', 'indigo']
+        } else if(att === attrs[2]){
+            return ['white', 'blueviolet']
+        } else if(att === attrs[5]){
+            return ['white', 'teal']
+        } else if (att === attrs[7]){
+            return ['white', 'olive']
         } else {
             return ['white', 'blue']
         }
@@ -177,8 +197,6 @@ function createMarkers(polys, att) {
     var propSteps = function(){
         if(att === null){
             return null
-        } else if(att === 'tempo') {
-            return 10
         } else {
             return 9
         }
