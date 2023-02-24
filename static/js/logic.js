@@ -5,6 +5,7 @@ var myMap;
 var first = true;
 var legend;
 var c;
+
 // Define function to create map
 function createMap(countries){
 
@@ -36,6 +37,8 @@ function createMap(countries){
 
 // Define function to create interactive buttons for song attributes
 function createButtons(){
+
+    d3.select('#top').append('h1').property('id', 'pageTitle').text('Most Popular Song Attributes by Country')
 
     d3.select('#top').append('a').property('href', '/')
     .property('id', 'home')
@@ -71,7 +74,7 @@ function updateMap(countries, att){
         var labels = [];
 
         // Create legend labels
-        div.innerHTML = '<h2 id="legend_title">'+ att +'</h2><hr><div class="labels"><div class="min">' + limits[0] + '</div> \
+        div.innerHTML = '<h2 id="legendTitle">'+ att +'</h2><p>' + attDeets[att] + '</p><div class="labels"><div class="min">' + limits[0] + '</div> \
         <div class="max">' + limits[limits.length - 1] + '</div></div>';
 
         // Add legend colors & return div
@@ -152,7 +155,7 @@ function createMarkers(polys, att) {
                 document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
             }
             this.setStyle({
-                color:'red',
+                color:'white',
                 weight:2
             });
             // call attr by country function here
