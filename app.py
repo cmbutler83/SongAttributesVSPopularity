@@ -33,10 +33,13 @@ top_50_by_country = Base.classes.top_50_by_country
 #################################################
 # Flask Routes
 #################################################
+
+#Home Page
 @app.route('/')
 def home():
    return render_template('map.html')
 
+#Attribute Selection
 @app.route('/attributes/<attribute>')
 def getAttribute(attribute):
     # Create our session (link) from Python to the DB, songs_complete_db.sqlite
@@ -48,12 +51,11 @@ def getAttribute(attribute):
                                       GROUP BY country').fetchall()
     session.close()
     #print(attribute_query)
-    
-    
     pakg = [{"country": r[0], "value": r[1]} for r in attribute_query]
     print(pakg)
-
     return jsonify(pakg)
+
+
 
 
 #Because I'm on a mac, I am setting the port to 8000 to avoid access errors
