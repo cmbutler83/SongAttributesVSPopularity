@@ -1,7 +1,7 @@
 #################################################
 # Dependencies
 #################################################
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -21,18 +21,14 @@ engine = create_engine("sqlite:///songs_complete_db.sqlite")
 Base = automap_base()
 
 # reflect the tables
-Base.prepare(autoload_with=engine)
 Base.prepare(engine, reflect=True)
-
-# Create our session (link) from Python to the DB
-session = Session(engine)
 
 #Save reference to the tables
 coolness = Base.classes.coolness
 country_attributes = Base.classes.country_attributes
 fiftygenre = Base.classes.fiftygenre
-#top_50_by_country = Base.classes.top_50_by_country
-song_attibutes = Base.classes.song_attibutes
+top_50_by_country = Base.classes.top_50_by_country
+#song_attibutes = Base.classes.song_attibutes
 
 #################################################
 # Flask Routes
@@ -45,18 +41,20 @@ def home():
 def getAttribute(attribute):
     # Create our session (link) from Python to the DB, songs_complete_db.sqlite
     session = Session(engine)
-    
+    #print(attribute)
     #use the attribute selected by the user; average the values of that attribute for each country
-    attribute_query = engine.execute('SELECT country, AVG(?) \
-                                      FROM song_attibutes \
-                                      GROUP BY country', attribute).fetchall()
+    attribute_query = engine.execute(f'SELECT country, AVG({attribute}) \
+                                      FROM top_50_by_country \
+                                      GROUP BY country').fetchall()
+    session.close()
+    #print(attribute_query)
     
-    attribute_dict = {}
-    for country, attribute in attribute_query:
-      attribute_dict['country'] = country
-      attribute_dict['attribute'] = attribute
+    
+    pakg = [{"country": r[0], "value": r[1]} for r in attribute_query]
+    print(pakg)
 
-    return(attribute_dict)
+    return jsonify(pakg)
+
 
 #Because I'm on a mac, I am setting the port to 8000 to avoid access errors
 if __name__ == '__main__':
