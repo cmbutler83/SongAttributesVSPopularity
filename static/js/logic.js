@@ -38,11 +38,12 @@ function createMap(countries){
 // Define function to create interactive buttons for song attributes
 function createButtons(){
 
-    d3.select('#top').append('h1').property('id', 'pageTitle').text('Most Popular Song Attributes by Country')
-
     d3.select('#top').append('a').property('href', '/')
     .property('id', 'home')
     .text('Back to Dashboard Page');
+
+    d3.select('#top').append('h1').property('id', 'pageTitle').text('Most Popular Song Attributes by Country')
+
 
     // Array to hold song attributes
     attrs = ['DANCEABILITY', 'ENERGY', 'LOUDNESS', 'SPEECHINESS', 'ACOUSTICNESS', 'VALENCE', 'TEMPO', 'DURATION'];
@@ -52,7 +53,7 @@ function createButtons(){
 
         // Create button for each attribute
         attr = attrs[i];
-        d3.select('#top').append('button').text(attr)
+        d3.select('#buttons').append('button').text(attr)
             .property('value', attr.toString())
             .property('id', `button${i}`)
             .attr('onclick', 'buttonPressed(this.value)');
@@ -149,7 +150,7 @@ function createMarkers(polys, att) {
         layer.on('click', function(c){
             clickd = feature.properties.ADMIN;
             if(clickd === 'China'){
-                clickd = 'Hong Kong';
+                //clickd = 'Hong Kong';
                 document.getElementById('attrs').innerHTML = 'Spotify blocked in mainland China, data is for Hong Kong ONLY'
             } else {
                 document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
@@ -159,9 +160,17 @@ function createMarkers(polys, att) {
                 weight:2
             });
             // call attr by country function here
+            let url = `/countries/${clickd}`
+            fetch(url).then(response => response.json())
+            .then(json => {
+                console.log(json);
+            
+            
+            
 
-
-
+            
+            
+            });
         });
     };
 
