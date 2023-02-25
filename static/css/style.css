@@ -1,6 +1,13 @@
 /* styles for map.html */
 #top {
-    height: 105px;
+    min-height: 50px;
+    display: flex;
+    width: 100%;
+}
+
+#buttons {
+    text-align: center;
+    min-height: 50px;
 }
 
 #map {
@@ -10,16 +17,17 @@
 }
 
 #pageTitle {
-    margin: 5px 20px 15px 20px;
     text-align: center;
+    margin: 5px;
     font: 32px 'Kodchasan', sans-serif;
     font-weight: bold;
     color: saddlebrown;
+    width: 74%;
 }
 
 #home {
-    padding: 5px 10px;
-    margin: 5px 60px 5px 5px;
+    padding: 5px 5px;
+    margin: 5px;
     border: none;
     border-radius: 5px;
     box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
@@ -27,6 +35,7 @@
     font-weight: bold;
     color: saddlebrown;
     background-color: khaki;
+    width: 13%;
 }
 
 #home:link {
@@ -92,7 +101,7 @@
 
 button {
     padding: 5px 15px;
-    margin: 0px 10px;
+    margin: 5px 10px;
     border: none;
     border-radius: 5px;
     box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
