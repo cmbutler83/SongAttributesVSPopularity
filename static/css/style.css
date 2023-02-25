@@ -59,7 +59,7 @@
 
 .info {
     color: saddlebrown;
-    min-width: 300px;
+    width: 350px;
     min-height: 150px;
     background-color: rgba(255,255,255,0.8);
     padding: 10px 20px;
@@ -157,7 +157,7 @@ button:active {
 }
 
 /* styles for plots.html */
-.container {
+/* .container {
     display: flex;
     width: 100%;
 }
@@ -167,4 +167,4 @@ button:active {
 #graph4,
 #graph5 {
     width: 50%;
-}
+} */
