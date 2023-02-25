@@ -103,6 +103,29 @@ function updateMap(countries, att){
 
 function createTable(data){
 
+    var columns = ['Attribute |', 'This Country |', 'All Countries'];
+
+    var table = d3.select('#attrs').append('table');
+	var thead = table.append('thead');
+	var	tbody = table.append('tbody');
+
+	// append the header row
+	thead.append('tr').selectAll('th')
+        .data(columns).enter().append('th')
+	    .text(column => column);
+
+	// create a row for each object in the data
+	var rows = tbody.selectAll('tr')
+	  .data(data).enter().append('tr');
+
+	// create a cell in each row for each column
+	var cells = rows.selectAll('td').data(function (row) {
+	    return columns.map(function (column) {
+	      return {column: column, value: row[column]};
+	    });
+	  }).enter().append('td').text(d => d.value);
+
+  return table;
 }
 
 
@@ -177,6 +200,7 @@ function createMarkers(polys, att) {
                         document.getElementById('attrs').innerHTML = '';
                         document.getElementById('this_country').innerHTML = clickd
                     }
+                    createTable(json);
                     
                     d3.select('#attrs').append('p').text(`Danceability: ${stats.danceability.value}, ${parseFloat(stats.danceability.average).toFixed(2)}`)
                     d3.select('#attrs').append('p').text(`Energy: ${stats.energy.value}, ${parseFloat(stats.energy.average).toFixed(2)}`)
