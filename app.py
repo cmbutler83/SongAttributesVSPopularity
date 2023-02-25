@@ -34,12 +34,16 @@ top_50_by_country = Base.classes.top_50_by_country
 # Flask Routes
 #################################################
 
-#Home Page
+#################################################
+# HOME PAGE
+#################################################
 @app.route('/')
 def home():
    return render_template('map.html')
 
-#Attribute Selection
+#################################################
+# ATTRIBUTE  ENDPOINT
+#################################################
 @app.route('/attributes/<attribute>')
 def getAttribute(attribute):
     # Create our session (link) from Python to the DB, songs_complete_db.sqlite
@@ -54,6 +58,68 @@ def getAttribute(attribute):
     pakg = [{"country": r[0], "value": r[1]} for r in attribute_query]
     print(pakg)
     return jsonify(pakg)
+
+#################################################
+# COUNTRY ENDPOINT
+#################################################
+@app.route('/countries/<country>')
+def getAttribute(country):
+    # Create our session (link) from Python to the DB, songs_complete_db.sqlite
+    session = Session(engine)
+    print(country)
+    
+    # use the attribute selected by the user; average the values of that attribute for each country
+    country_query = engine.execute(f"SELECT danceability, energy, loudness,\
+                                        speechiness, acousticness, valence, \
+                                        tempo, duration \
+                                        FROM country_attributes \
+                                        WHERE country='{country}'").fetchall()
+     #Result example: [(0.6467594945040479, 0.5531940893832685, -7.848541433554926, 0.09584869347725926, 0.3262092080760877, 0.4660201540182979, 120.01254117027578, 207.08635555848088)]
+    country_results = country_query[0]
+
+    avg_query = engine.execute(f"SELECT AVG(danceability), \
+                                AVG(energy), \
+                                AVG(loudness), \
+                                AVG(speechiness), \
+                                AVG(acousticness), \
+                                AVG(valence), \
+                                AVG(tempo), \
+                                AVG(duration) \
+                                FROM country_attributes").fetchall()
+    #Result example: [(0.6793448757328516, 0.6398077829193978, -6.404888131435592, 0.1049760341207325, 0.27439794173374626, 0.5325104695279008, 122.01599088347731, 203.17904368185987)]
+    session.close()
+    #turn query results into a list
+    avg_results = avg_query[0]
+    
+    #create keys for the final dictionary
+    keys = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'valence', 'tempo', 'duration' ]
+
+    #make the dictionary
+    country_dict= dict.fromkeys(keys) 
+
+    #set the index number. This is used to loop through the country_ and avg_results lists
+    i = 0
+
+    #loop through the keys in practice_dict
+    for key in country_dict:
+        #add a dictionary to each key with 'value' and 'average" as keys
+        country_dict[key] = {'value':0, 'average':0}
+        #set the current key's dictionary 'value' to the value found for the index in country_results
+        country_dict[key]['value'] = country_results[i]
+        #set the current key's dictionary 'average' to the value found for the index in avg_results
+        country_dict[key]['average'] = avg_results[i]
+        i = i + 1
+    
+    return jsonify(country_dict)
+
+
+
+
+
+
+
+
+
 
 
 
