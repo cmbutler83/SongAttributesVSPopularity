@@ -15,7 +15,7 @@ app = Flask(__name__)
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("sqlite:///songs_complete_db.sqlite")
+engine = create_engine("sqlite:///Resources/songs_complete_db.sqlite")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -105,27 +105,23 @@ def getCountry(country):
         session.close()
         #turn query results into a list
         avg_results = avg_query[0]
+        #round the avg_results to 2 decimals
+        rnd_avg_results = [str(round(result, 2)) for result in avg_results]
+
         
         #create keys for the final dictionary
         keys = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'valence', 'tempo', 'duration' ]
 
-        #make the dictionary
-        country_dict= dict.fromkeys(keys) 
+        results_list = []
+        i=0
 
-        #set the index number. This is used to loop through the country_ and avg_results lists
-        i = 0
+        for key in keys: 
+            dict = {'attribute': key, 'value':country_results[i], 'average' : rnd_avg_results[i] }
+            results_list.append(dict)
+            i=i+1
 
-        #loop through the keys in practice_dict
-        for key in country_dict:
-            #add a dictionary to each key with 'value' and 'average" as keys
-            country_dict[key] = {'value':0, 'average':0}
-            #set the current key's dictionary 'value' to the value found for the index in country_results
-            country_dict[key]['value'] = country_results[i]
-            #set the current key's dictionary 'average' to the value found for the index in avg_results
-            country_dict[key]['average'] = avg_results[i]
-            i = i + 1
-        print(country_dict)
-        return jsonify(country_dict)
+        print(results_list)
+        return jsonify(results_list)
 
 
 #Because I'm on a mac, I am setting the port to 8000 to avoid access errors
