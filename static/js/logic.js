@@ -5,6 +5,7 @@ var myMap;
 var first = true;
 var legend;
 var c;
+var infoBox;
 
 // Define function to create map
 function createMap(countries){
@@ -25,7 +26,7 @@ function createMap(countries){
     createButtons();
 
     // Create info box to display results for song attributes by country
-    var infoBox = L.control({position: 'bottomleft'});
+    infoBox = L.control({position: 'bottomleft'});
     infoBox.onAdd = function(){
         var div2 = L.DomUtil.create('div', 'info');
         div2.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><h4><div id="attrs">Click for more info...</div></h4>';
@@ -110,7 +111,7 @@ function createMarkers(polys, att) {
     // Function to choose color of highlighted country on mouseover
     var highlight = function(){
         if(att === null){
-            return 'ghostwhite' 
+            return 'red' 
         } else if(att === attrs[0] || att === attrs[1] || att === attrs[2]){
             return 'yellow'
         } else if(att === attrs[3] || att === attrs[4]){
@@ -134,27 +135,24 @@ function createMarkers(polys, att) {
             if(country === 'China'){
                 country = 'Hong Kong'
             }
-            document.getElementById('this_country').innerHTML = country
+            var container = infoBox.getContainer();
+            const titleNode = document.createElement('h2');
+            titleNode.setAttribute('id', 'cntry');
+            const nodeText = document.createTextNode(country);
+            titleNode.appendChild(nodeText);
+            container.insertBefore(titleNode, container.children[0]);
+            d3.select('#cntry').append('hr');
+
         });
         // Reset style on mouseout
         layer.on('mouseout', function(e){
             borders.resetStyle(this);
-            if(clickd){
-                document.getElementById('this_country').innerHTML = clickd
-            } else {
-                document.getElementById('this_country').innerHTML = 'Each Country'
-                document.getElementById('attrs').innerHTML = 'Click for more info...'
-            }
+            document.getElementById('cntry').remove()
         });
         // Show country's song attribute info in info box on mouse click
         layer.on('click', function(c){
             clickd = feature.properties.ADMIN;
-            if(clickd === 'China'){
-                //clickd = 'Hong Kong';
-                document.getElementById('attrs').innerHTML = 'Spotify blocked in mainland China, data is for Hong Kong ONLY'
-            } else {
-                document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
-            }
+
             this.setStyle({
                 color:'white',
                 weight:2
@@ -162,10 +160,35 @@ function createMarkers(polys, att) {
             // call attr by country function here
             let url = `/countries/${clickd}`
             fetch(url).then(response => response.json())
-            .then(json => {
-                console.log(json);
+            .then((json) => {
+
+                
+                let stats = json[0]
+                if(stats !== undefined){
+
+                    if(clickd === 'China'){
+                        document.getElementById('attrs').innerHTML = 'Spotify blocked in mainland China, data is for Hong Kong ONLY'
+                        document.getElementById('this_country').innerHTML = 'Hong Kong'
+                    } else {
+                        document.getElementById('attrs').innerHTML = '';
+                        document.getElementById('this_country').innerHTML = clickd
+                    }
+
+                    d3.select('#attrs').append('p').text(`Danceability: ${stats.danceability.average}`)
+                    d3.select('#attrs').append('p').text(`Energy: ${stats.energy.average}`)
+                    d3.select('#attrs').append('p').text(`Loudness: ${stats.loudness.average}`)
+                    d3.select('#attrs').append('p').text(`Speechiness: ${stats.speechiness.average}`)
+                    d3.select('#attrs').append('p').text(`Acousticness: ${stats.acousticness.average}`)
+                    d3.select('#attrs').append('p').text(`Valence: ${stats.valence.average}`)
+                    d3.select('#attrs').append('p').text(`Tempo: ${stats.tempo.average}`)
+                    d3.select('#attrs').append('p').text(`Duration: ${stats.duration.average}`)
+                }
+                else {
+                    document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
+                    document.getElementById('this_country').innerHTML = clickd  
+                }
             
-            
+
             
 
             
