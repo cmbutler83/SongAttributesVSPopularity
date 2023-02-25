@@ -75,15 +75,16 @@ def getCountry(country):
                                         FROM country_attributes \
                                         WHERE country='{country}'").fetchall()
      #Result example: [(0.6467594945040479, 0.5531940893832685, -7.848541433554926, 0.09584869347725926, 0.3262092080760877, 0.4660201540182979, 120.01254117027578, 207.08635555848088)]
-    country_results = country_query[0]
-    print(len(country_results))
+    #print(len(country_results))
 
-    if len(country_results) == 0:
+    if len(country_query) == 0:
         session.close()
         return jsonify([])
         
 
     else:
+        country_results = country_query[0]
+
         avg_query = engine.execute(f"SELECT AVG(danceability), \
                                     AVG(energy), \
                                     AVG(loudness), \
