@@ -39,6 +39,13 @@ top_50_by_country = Base.classes.top_50_by_country
 #################################################
 @app.route('/')
 def home():
+   return render_template('index.html')
+
+#################################################
+# MAP
+#################################################
+@app.route('/map')
+def map():
    return render_template('map.html')
 
 #################################################
