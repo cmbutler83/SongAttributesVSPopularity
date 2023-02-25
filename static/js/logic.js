@@ -29,7 +29,7 @@ function createMap(countries){
     infoBox = L.control({position: 'bottomleft'});
     infoBox.onAdd = function(){
         var div2 = L.DomUtil.create('div', 'info');
-        div2.innerHTML += '<h2>Song Attributes for</h2><h1><div id="this_country">Each Country</div></h1><h4><div id="attrs">Click for more info...</div></h4>';
+        div2.innerHTML += '<h2>Most Popular Song Attributes</h2><h1><div id="this_country">by Country</div></h1><h4><div id="attrs">Click a country for details...</div></h4>';
         return div2;
     };
     // Add info box to map
@@ -43,7 +43,7 @@ function createButtons(){
     .property('id', 'home')
     .text('Back to Dashboard Page');
 
-    d3.select('#top').append('h1').property('id', 'pageTitle').text('Most Popular Song Attributes by Country')
+    d3.select('#top').append('h1').property('id', 'pageTitle').text('Song Attribute Popularity Distribution (Top 50 Songs per Country)')
 
 
     // Array to hold song attributes
@@ -76,8 +76,8 @@ function updateMap(countries, att){
         var labels = [];
 
         // Create legend labels
-        div.innerHTML = '<h2 id="legendTitle">'+ att +'</h2><p>' + attDeets[att] + '</p><div class="labels"><div class="min">' + limits[0] + '</div> \
-        <div class="max">' + limits[limits.length - 1] + '</div></div>';
+        div.innerHTML = '<h2 id="legendTitle">'+ att +'</h2><p>' + attDeets[att] + '</p><div class="labels"><div class="min">' + parseFloat(limits[0]).toFixed(2) + '</div> \
+        <div class="max">' + parseFloat(limits[limits.length - 1]).toFixed(2) + '</div></div>';
 
         // Add legend colors & return div
         limits.forEach(function (limit, index) {
@@ -162,26 +162,26 @@ function createMarkers(polys, att) {
             fetch(url).then(response => response.json())
             .then((json) => {
 
-                
-                let stats = json[0]
+                console.log(json)
+                let stats = json
                 if(stats !== undefined){
 
                     if(clickd === 'China'){
-                        document.getElementById('attrs').innerHTML = 'Spotify blocked in mainland China, data is for Hong Kong ONLY'
+                        document.getElementById('attrs').innerHTML = '(Spotify blocked in mainland China, data is for Hong Kong ONLY)'
                         document.getElementById('this_country').innerHTML = 'Hong Kong'
                     } else {
                         document.getElementById('attrs').innerHTML = '';
                         document.getElementById('this_country').innerHTML = clickd
                     }
-
-                    d3.select('#attrs').append('p').text(`Danceability: ${stats.danceability.average}`)
-                    d3.select('#attrs').append('p').text(`Energy: ${stats.energy.average}`)
-                    d3.select('#attrs').append('p').text(`Loudness: ${stats.loudness.average}`)
-                    d3.select('#attrs').append('p').text(`Speechiness: ${stats.speechiness.average}`)
-                    d3.select('#attrs').append('p').text(`Acousticness: ${stats.acousticness.average}`)
-                    d3.select('#attrs').append('p').text(`Valence: ${stats.valence.average}`)
-                    d3.select('#attrs').append('p').text(`Tempo: ${stats.tempo.average}`)
-                    d3.select('#attrs').append('p').text(`Duration: ${stats.duration.average}`)
+                    
+                    d3.select('#attrs').append('p').text(`Danceability: ${stats.danceability.value}, ${parseFloat(stats.danceability.average).toFixed(2)}`)
+                    d3.select('#attrs').append('p').text(`Energy: ${stats.energy.value}, ${parseFloat(stats.energy.average).toFixed(2)}`)
+                    d3.select('#attrs').append('p').text(`Loudness: ${stats.loudness.value}, ${parseFloat(stats.loudness.average).toFixed(2)}`)
+                    d3.select('#attrs').append('p').text(`Speechiness: ${stats.speechiness.value}, ${parseFloat(stats.speechiness.average).toFixed(2)}`)
+                    d3.select('#attrs').append('p').text(`Acousticness: ${stats.acousticness.value}, ${parseFloat(stats.acousticness.average).toFixed(2)}`)
+                    d3.select('#attrs').append('p').text(`Valence: ${stats.valence.value}, ${parseFloat(stats.valence.average).toFixed(2)}`)
+                    d3.select('#attrs').append('p').text(`Tempo: ${stats.tempo.value}, ${parseFloat(stats.tempo.average).toFixed(2)}`)
+                    d3.select('#attrs').append('p').text(`Duration: ${stats.duration.value}, ${parseFloat(stats.duration.average).toFixed(2)}`)
                 }
                 else {
                     document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`

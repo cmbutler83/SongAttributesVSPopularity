@@ -59,14 +59,18 @@
 
 .info {
     color: saddlebrown;
-    width: 300px;
-    min-height: 220px;
+    min-width: 300px;
+    min-height: 150px;
     background-color: rgba(255,255,255,0.8);
     padding: 10px 20px;
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
     border-radius: 5px;
     text-align: center;
-    font: 14px 'Kodchasan', sans-serif;
+    font: 16px 'Kodchasan', sans-serif;
+}
+
+#this_country {
+    margin-top: -15px
 }
 
 .legend {
