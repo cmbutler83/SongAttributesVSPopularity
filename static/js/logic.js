@@ -101,6 +101,10 @@ function updateMap(countries, att){
     first = false;
 };
 
+function createTable(data){
+
+}
+
 
 // Define function to draw country borders
 function createMarkers(polys, att) {
@@ -164,7 +168,7 @@ function createMarkers(polys, att) {
 
                 console.log(json)
                 let stats = json
-                if(stats !== undefined){
+                if(stats.energy !== undefined){
 
                     if(clickd === 'China'){
                         document.getElementById('attrs').innerHTML = '(Spotify blocked in mainland China, data is for Hong Kong ONLY)'
