@@ -63,7 +63,7 @@ def getAttribute(attribute):
 # COUNTRY ENDPOINT
 #################################################
 @app.route('/countries/<country>')
-def getAttribute(country):
+def getCountry(country):
     # Create our session (link) from Python to the DB, songs_complete_db.sqlite
     session = Session(engine)
     print(country)
@@ -109,19 +109,8 @@ def getAttribute(country):
         #set the current key's dictionary 'average' to the value found for the index in avg_results
         country_dict[key]['average'] = avg_results[i]
         i = i + 1
-    
+    print(country_dict)
     return jsonify(country_dict)
-
-
-
-
-
-
-
-
-
-
-
 
 
 #Because I'm on a mac, I am setting the port to 8000 to avoid access errors
