@@ -103,7 +103,7 @@ function updateMap(countries, att){
 
 function createTable(data){
 
-    var columns = ['Attribute |', 'This Country |', 'All Countries'];
+    var columns = ['attribute', 'value', 'average'];
 
     var table = d3.select('#attrs').append('table');
 	var thead = table.append('thead');
@@ -124,6 +124,16 @@ function createTable(data){
 	      return {column: column, value: row[column]};
 	    });
 	  }).enter().append('td').text(d => d.value);
+    
+    thead.selectAll('th').text(function(column){
+        if(column === 'attribute'){
+            return ' '
+        } else if (column === 'value'){
+            return 'This Country | '
+        } else {
+            return ' All Countries'
+        }
+    })
 
   return table;
 }
@@ -191,7 +201,7 @@ function createMarkers(polys, att) {
 
                 console.log(json)
                 let stats = json
-                if(stats.energy !== undefined){
+                if(stats[0] !== undefined){
 
                     if(clickd === 'China'){
                         document.getElementById('attrs').innerHTML = '(Spotify blocked in mainland China, data is for Hong Kong ONLY)'
@@ -202,14 +212,14 @@ function createMarkers(polys, att) {
                     }
                     createTable(json);
                     
-                    d3.select('#attrs').append('p').text(`Danceability: ${stats.danceability.value}, ${parseFloat(stats.danceability.average).toFixed(2)}`)
-                    d3.select('#attrs').append('p').text(`Energy: ${stats.energy.value}, ${parseFloat(stats.energy.average).toFixed(2)}`)
-                    d3.select('#attrs').append('p').text(`Loudness: ${stats.loudness.value}, ${parseFloat(stats.loudness.average).toFixed(2)}`)
-                    d3.select('#attrs').append('p').text(`Speechiness: ${stats.speechiness.value}, ${parseFloat(stats.speechiness.average).toFixed(2)}`)
-                    d3.select('#attrs').append('p').text(`Acousticness: ${stats.acousticness.value}, ${parseFloat(stats.acousticness.average).toFixed(2)}`)
-                    d3.select('#attrs').append('p').text(`Valence: ${stats.valence.value}, ${parseFloat(stats.valence.average).toFixed(2)}`)
-                    d3.select('#attrs').append('p').text(`Tempo: ${stats.tempo.value}, ${parseFloat(stats.tempo.average).toFixed(2)}`)
-                    d3.select('#attrs').append('p').text(`Duration: ${stats.duration.value}, ${parseFloat(stats.duration.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Danceability: ${stats.danceability.value}, ${parseFloat(stats.danceability.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Energy: ${stats.energy.value}, ${parseFloat(stats.energy.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Loudness: ${stats.loudness.value}, ${parseFloat(stats.loudness.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Speechiness: ${stats.speechiness.value}, ${parseFloat(stats.speechiness.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Acousticness: ${stats.acousticness.value}, ${parseFloat(stats.acousticness.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Valence: ${stats.valence.value}, ${parseFloat(stats.valence.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Tempo: ${stats.tempo.value}, ${parseFloat(stats.tempo.average).toFixed(2)}`)
+                    // d3.select('#attrs').append('p').text(`Duration: ${stats.duration.value}, ${parseFloat(stats.duration.average).toFixed(2)}`)
                 }
                 else {
                     document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
