@@ -73,6 +73,17 @@
     margin-top: -15px
 }
 
+th {
+    padding: 8px;
+}
+td {
+    padding: 2px 5px;
+    border-top: 1px solid #ccc;
+}
+tr:hover {
+    background-color: khaki;
+}
+
 .legend {
     text-align: center;
     color: saddlebrown;
