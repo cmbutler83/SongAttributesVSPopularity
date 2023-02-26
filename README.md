@@ -1,5 +1,7 @@
 # Song Attributes vs. Popularity
-
+- - -
+![Dashboard Screenshot](static/Images/full_map_screenshot.png)
+- - -
 ## **Project Structure:**
 
 Completed Project Dashboard can be found HERE
@@ -42,15 +44,19 @@ What truly makes a song popular? To answer this, analyzed the impact a song's at
   - @app.route('/countries/<country>')
 
 ## **Part 4: Create JavaScript for HTML**
-1. A geojson was created for the HTML visualization 
-2. Functions were defined to create buttons for different properties of the dashboard and main page
-  - An infobox to show attributes for each country
-  - Switch between pages
-  - Show tables
-  - Chloropleth
-  
+1. A geojson of country polygons was used to create choropleths for each song attribute by country.
+2. An infobox was created to display more detailed information for each country, ranking the song attributes in order of greatest difference between the countries top 50 songs average and the total average of the whole dataset per song attribute.
+3. Minor stylistic features were added to highlight user interactivity and allow the user to switch between the map and a static dashboard displaying other statistics:
+  - Top 10 Artists Worldwide
+  - Song Attribute Distribution
+  - Top 10 Songs in Spotify
+  - Song Attribute Correlation Heatmap
 
+- - -
 
-
-Resources:
-https://www.kaggle.com/datasets/yelexa/spotify200
+## Resources:
+Original dataset on [Kaggle](https://www.kaggle.com/datasets/yelexa/spotify200).  
+More information on the meanings of each song attribute can be found [here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-several-audio-features) and [here](https://www.kaggle.com/code/mohitkr05/spotify-data-visualization).  
+Country borders provided by [jalbertbowden](https://github.com/datasets/geo-countries) under the [Open Data Commons Public Domain Dedication and License](https://opendatacommons.org/licenses/pddl/1-0/).  
+Choropleth library can be found [here](https://github.com/timwis/leaflet-choropleth/).  
+Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.
