@@ -12,14 +12,18 @@ function createMap(countries){
 
     // Map tiles
     var base = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg', {
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>)'
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>)',
+        minZoom: 3,
+        maxZoom: 6,
+        noWrap: true    
     });
 
     // Create map
     myMap = L.map("map", {
         center: [16, 8],
         zoom: 3,
-        layers: [base, countries]
+        layers: [base, countries],
+        maxBounds: [[180, -180], [-180, 180]]
     });
 
     // Call function to create buttons
@@ -29,7 +33,7 @@ function createMap(countries){
     infoBox = L.control({position: 'bottomleft'});
     infoBox.onAdd = function(){
         var div2 = L.DomUtil.create('div', 'info');
-        div2.innerHTML += '<h2>Most Popular Song Attributes</h2><h1><div id="this_country">by Country</div></h1><h4><div id="attrs">Click a country for details...</div></h4>';
+        div2.innerHTML += '<h2>Most Popular Song Attributes (on average)</h2><h1><div id="this_country">by Country</div></h1><h4><div id="attrs">Click a country for details...</div></h4>';
         return div2;
     };
     // Add info box to map
@@ -90,10 +94,9 @@ function updateMap(countries, att){
     // Add legend to map
     legend.addTo(myMap);
     
-    // Remove previous choropleth if exists
-    if(!first){
-        myMap.removeLayer(c);
-    }
+    // Remove previous layer
+    myMap.removeLayer(c);
+    
     // Add requested choropleth
     myMap.addLayer(countries);
     // Save this layer to remove on the next round
@@ -134,9 +137,9 @@ function createTable(data){
         if(column === 'attribute'){
             return ' '
         } else if (column === 'value'){
-            return 'This Country'
+            return 'This Country (Top 50)'
         } else {
-            return 'All Countries'
+            return 'All Countries (All Songs)'
         }
     });
 
@@ -162,11 +165,11 @@ function createTable(data){
         if(thisOne[i] === null){
 
         } else if(thisOne[i]){
-            row.cells[1].style.color = 'dodgerblue'
-            row.cells[2].style.color = 'darkorange'
+            row.cells[1].style.color = 'royalblue'
+            row.cells[2].style.color = 'goldenrod'
         } else if(!thisOne[i]){
-            row.cells[1].style.color = 'darkorange'
-            row.cells[2].style.color = 'dodgerblue'
+            row.cells[1].style.color = 'goldenrod'
+            row.cells[2].style.color = 'royalblue'
         }
     }    
 };
@@ -177,17 +180,18 @@ function createMarkers(polys, att) {
 
     var country = '';
     var clickd = '';
+    var held;
 
     // Function to choose color of highlighted country on mouseover
     var highlight = function(){
         if(att === null){
-            return 'red' 
+            return 'lime' 
         } else if(att === attrs[0] || att === attrs[1] || att === attrs[2]){
             return 'yellow'
         } else if(att === attrs[3] || att === attrs[4]){
             return 'lime'
         } else {
-            return 'cyan'
+            return 'aqua'
         }
     };
     
@@ -216,17 +220,25 @@ function createMarkers(polys, att) {
         });
         // Reset style on mouseout
         layer.on('mouseout', function(e){
-            borders.resetStyle(this);
+            if(this.feature.properties.ADMIN !== clickd){
+                borders.resetStyle(this);
+            } else {
+                held = this;
+            }
             document.getElementById('cntry').remove()
         });
         // Show country's song attribute info in info box on mouse click
         layer.on('click', function(c){
+            if(held){
+                borders.resetStyle(held);
+            }
             clickd = feature.properties.ADMIN;
-
             this.setStyle({
-                color:'white',
-                weight:2
+                color: 'white',
+                weight: 3
             });
+
+           
             // call attr by country function here
             let url = `/countries/${clickd}`
             fetch(url).then(response => response.json())
@@ -333,6 +345,7 @@ function createMarkers(polys, att) {
     
     if(att === null){
         // First pass, draw map
+        c = borders;
         createMap(borders);
     } else {
         // Update choropleth & legend on button press
