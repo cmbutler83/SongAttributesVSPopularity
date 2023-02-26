@@ -168,3 +168,40 @@ button:active {
 #graph5 {
     width: 50%;
 } */
+
+/* styles for index.html */
+.container {
+    background-color: #f0f0f0;
+    padding: 0.01em 16px;
+  }
+
+.card {
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    margin: 100px;
+    width: fit-content; 
+    background-color: #ffffff;
+}
+
+.card p {
+    text-align: center;
+    margin: 5px;
+    font: 32px 'Kodchasan', sans-serif;
+    font-weight: bold;
+    color: saddlebrown;
+    padding: 25px; 
+}
+
+#mapButton {
+    padding: 5px 5px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
+    font: 20px 'Kodchasan', sans-serif;
+    font-weight: bold;
+    color: saddlebrown;
+    background-color: khaki;
+    width: 150px;
+    text-decoration-line: none;
+    text-align: center;
+}

@@ -10,28 +10,31 @@
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
     <!--Link to Google Font-->
     <link href='https://fonts.googleapis.com/css?family=Kodchasan' rel='stylesheet'>
+
+
     <!-- D3 Import -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <body>
-    <div id="top">
-        <a href='/map' id="home">Go to Map Page</a>
+    <div id="top" style="margin-bottom: 50px;">
+        <a href='/map' id="mapButton">Map</a>
         <h1 id="pageTitle">Some sort of title</h1>
     </div>
-
-    <div>
-        <img src="static/Images/artist_popularity.png" alt="Bar chart of top 10 artists world wide">
+    <div class="container">
+        <div class="card">
+                <img src="static/Images/artist_popularity.png" alt="Bar chart of top 10 artists world wide">
+                <p>Top 10 Artists World Wide</p>
+        </div>
+        <div class="card">
+            <img src="static/Images/attribute_img.png" alt="Song Attribute Distribution Chart">
+        </div>
+        <div class="card">
+            <img src="static/Images/cool_fig.png" alt="Top 10 Songs in Spotify Line Graph">
+        </div>
+        <div class="card">
+            <img src="static/Images/heatmap.png" alt="Attribute correlation heat map">
+        </div>
     </div>
-    <div>
-        <img src="static/Images/attribute_img.png" alt="Song Attribute Distribution Chart">
-    </div>
-    <div>
-        <img src="static/Images/cool_fig.png" alt="Top 10 Songs in Spotify Line Graph">
-    </div>
-    <div>
-        <img src="static/Images/heatmap.png" alt="Attribute correlation heat map">
-    </div>
-
 
 
 
