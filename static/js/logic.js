@@ -141,8 +141,6 @@ function createTable(data){
     });
 
     // color table according to values here...
-    //cells.style('color', 'red');
-
     var thisOne = [];
     var trs = d3.selectAll('tr').data();
     var tds = d3.selectAll('tr');
@@ -162,7 +160,7 @@ function createTable(data){
     for(i = 0; i < thisOne.length; i++){
         var row = document.getElementsByTagName('tr')[i+1];
         if(thisOne[i] === null){
-            
+
         } else if(thisOne[i]){
             row.cells[1].style.color = 'dodgerblue'
             row.cells[2].style.color = 'darkorange'
@@ -170,14 +168,7 @@ function createTable(data){
             row.cells[1].style.color = 'darkorange'
             row.cells[2].style.color = 'dodgerblue'
         }
-    }
-    
-    // const tds = d3.selectAll('td').each(function() {
-    //     d3.select(this).style('color',
-    //     this.innerHTML > 0 ? 'dodgerblue' : 'darkorange')
-    // })
-
-    
+    }    
 };
 
 
