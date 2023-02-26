@@ -182,25 +182,55 @@ button:active {
 } */
 
 /* styles for index.html */
+.text {
+    background-color: #f0f0f0;
+    padding: 0.01em 16px;
+}
+
+.text h1 {
+    margin: 25px;
+    font: 24px 'Kodchasan', sans-serif;
+    color: saddlebrown;
+}
+
+.text p {
+    margin: 25px;
+    font: 16px 'Kodchasan', sans-serif;
+    color: #383838;
+
+}
+
+.text ul, li {
+    font: 16px 'Kodchasan', sans-serif;
+    color: #383838;
+    margin: 5px;
+}
+
 .container {
     background-color: #f0f0f0;
     padding: 0.01em 16px;
+    width: fit-content;
   }
 
 .card {
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-    margin: 100px;
+    margin: 50px 100px 25px 25px;
     width: fit-content; 
     background-color: #ffffff;
+    display: inline-block;
 }
 
-.card p {
+.card h1 {
     text-align: center;
     margin: 5px;
     font: 32px 'Kodchasan', sans-serif;
     font-weight: bold;
     color: saddlebrown;
     padding: 25px; 
+}
+
+.card p {
+    margin: 5px;
 }
 
 #mapButton {
