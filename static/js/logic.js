@@ -7,6 +7,7 @@ var attrs;
 var c;
 var first = true;
 
+
 // Define function to create map
 function createMap(countries){
 
@@ -23,7 +24,7 @@ function createMap(countries){
         center: [16, 8],
         zoom: 3,
         layers: [base, countries],
-        maxBounds: [[180, -180], [-180, 180]]
+        maxBounds: [[190, -190], [-190, 190]]
     });
 
     // Call function to create buttons
@@ -33,12 +34,15 @@ function createMap(countries){
     infoBox = L.control({position: 'bottomleft'});
     infoBox.onAdd = function(){
         var div2 = L.DomUtil.create('div', 'info');
-        div2.innerHTML += '<h2>Most Popular Song Attributes (on average)</h2><h1><div id="this_country">by Country</div></h1><h4><div id="attrs">Click a country for details...</div></h4>';
+        div2.innerHTML += '<h2>Song Attribute Popularity Ranking</h2>\
+        <h1><div id="this_country">Country Details</div></h1>\
+        <h4><div id="attrs">Click a country for more info...</div></h4>';
         return div2;
     };
     // Add info box to map
     infoBox.addTo(myMap);
 };
+
 
 // Define function to create interactive buttons for song attributes
 function createButtons(){
@@ -49,7 +53,8 @@ function createButtons(){
     .text('Back to Dashboard Page');
 
     // Add title
-    d3.select('#top').append('h1').property('id', 'pageTitle').text('Song Attribute Popularity Distribution (Top 50 Songs per Country)')
+    d3.select('#top').append('h1').property('id', 'pageTitle')
+        .text('Song Attribute Popularity by Country (Top 50 Songs)')
 
     // Array to hold song attributes
     attrs = ['DANCEABILITY', 'ENERGY', 'LOUDNESS', 'SPEECHINESS', 'ACOUSTICNESS', 'VALENCE', 'TEMPO', 'DURATION'];
@@ -66,12 +71,15 @@ function createButtons(){
     };
 };
 
+
 // Define function to update map on button clicks
 function updateMap(countries, att){
+
+    // Remove previous legend if exists
     if(!first){
-        // remove previous legend if exists
         legend.remove(myMap);
     };
+
     // Define new legend
     legend = L.control({position: 'topright'});
     legend.onAdd = function(){
@@ -99,40 +107,43 @@ function updateMap(countries, att){
     
     // Add requested choropleth
     myMap.addLayer(countries);
+
     // Save this layer to remove on the next round
     c = countries;
+
     // Note that we are not on the first round anymore
     first = false;
 };
 
+
 // Define function to convert country data to table format
 function createTable(data){
 
-    // store column names
+    // Store column names
     var columns = ['attribute', 'value', 'average'];
 
-    // create table and sections
+    // Create table and sections
     var table = d3.select('#attrs').append('table');
 	var thead = table.append('thead');
 	var	tbody = table.append('tbody');
 
-	// append the header row
+	// Append the header row
 	thead.append('tr').selectAll('th')
         .data(columns).enter().append('th')
 	    .text(column => column);
 
-	// create a row for each object in the data
+	// Create a row for each object in the data
 	var rows = tbody.selectAll('tr')
 	  .data(data).enter().append('tr');
 
-	// create a cell in each row for each column
+	// Create a cell in each row for each column
 	var cells = rows.selectAll('td').data(function (row) {
 	    return columns.map(function (column) {
 	      return {column: column, value: row[column]};
 	    })
 	  }).enter().append('td').text(d => d.value)
     
-    // rename columns
+    // Rename columns
     thead.selectAll('th').text(function(column){
         if(column === 'attribute'){
             return ' '
@@ -143,14 +154,19 @@ function createTable(data){
         }
     });
 
-    // color table according to values here...
+    // Empty array
     var thisOne = [];
+    // All rows data
     var trs = d3.selectAll('tr').data();
-    var tds = d3.selectAll('tr');
+
+    // Iterate through rows
     for(t = 1; t < trs.length; t++){
+
+        // Get numeric values of each attribute
         var val1 = parseFloat(trs[t].value);
         var val2 = parseFloat(trs[t].average);
-        console.log(val1, val2);
+
+        // Compare to see which is greater & push result to our array
         if(val2 > val1){
             thisOne.push(false);
         } else if(val1 > val2){
@@ -159,17 +175,29 @@ function createTable(data){
             thisOne.push(null);
         }
     }
-    console.log(thisOne);
+
+    // Iterate through array
     for(i = 0; i < thisOne.length; i++){
+
+        // Get each row's element
         var row = document.getElementsByTagName('tr')[i+1];
+
+        // Skip null values (where both items are equal)
         if(thisOne[i] === null){
 
+        // If true, our country has a higher value
         } else if(thisOne[i]){
-            row.cells[1].style.color = 'royalblue'
+
+            // Color the first value blue & second gold
+            row.cells[1].style.color = 'dodgerblue'
             row.cells[2].style.color = 'goldenrod'
+
+        // If false, our country has the lower value
         } else if(!thisOne[i]){
+
+            // Color the first gold and the second blue
             row.cells[1].style.color = 'goldenrod'
-            row.cells[2].style.color = 'royalblue'
+            row.cells[2].style.color = 'dodgerblue'
         }
     }    
 };
@@ -185,7 +213,7 @@ function createMarkers(polys, att) {
     // Function to choose color of highlighted country on mouseover
     var highlight = function(){
         if(att === null){
-            return 'lime' 
+            return 'orange' 
         } else if(att === attrs[0] || att === attrs[1] || att === attrs[2]){
             return 'yellow'
         } else if(att === attrs[3] || att === attrs[4]){
@@ -204,60 +232,91 @@ function createMarkers(polys, att) {
                 fillColor: highlight(),
                 fillOpacity: 0.8
             });
+
             // Show country name in infobox
             country = feature.properties.ADMIN;
+
+            // Change China to Hong Kong
             if(country === 'China'){
                 country = 'Hong Kong'
             }
+
+            // Append mouseover country to top of infobox
+            // (instead of popup as these do not populate nicely on the map)
             var container = infoBox.getContainer();
             const titleNode = document.createElement('h2');
             titleNode.setAttribute('id', 'cntry');
             const nodeText = document.createTextNode(country);
             titleNode.appendChild(nodeText);
             container.insertBefore(titleNode, container.children[0]);
+            // Add divider
             d3.select('#cntry').append('hr');
 
         });
-        // Reset style on mouseout
+
+        // Mouseout function
         layer.on('mouseout', function(e){
             if(this.feature.properties.ADMIN !== clickd){
+
+                // Reset style if not clicked on
                 borders.resetStyle(this);
             } else {
+
+                // Save highlighted country if clicked on
                 held = this;
             }
+            // Remove appended "popup" country name from infobox
             document.getElementById('cntry').remove()
         });
+
         // Show country's song attribute info in info box on mouse click
         layer.on('click', function(c){
             if(held){
+
+                // If already a country highlighted, remove it
                 borders.resetStyle(held);
             }
+        
+            // Set this to be our selected country & bring to front, outline
             clickd = feature.properties.ADMIN;
+            this.bringToFront()
             this.setStyle({
                 color: 'white',
                 weight: 3
             });
 
-           
-            // call attr by country function here
+           // Pass country clicked on to Flask to get our song attribute data
             let url = `/countries/${clickd}`
+
+            // Convert reponse to json
             fetch(url).then(response => response.json())
             .then((json) => {
 
                 let stats = json
+
+                // If response is not blank, country is in our dataset
                 if(stats[0] !== undefined){
 
+                    
                     if(clickd === 'China'){
+
+                        // If response is China, add disclaimer
                         document.getElementById('attrs').innerHTML = '(Spotify blocked in mainland China, data is for Hong Kong ONLY)<br><br><hr><br>'
                         document.getElementById('this_country').innerHTML = 'Hong Kong'
                     } else {
+
+                        // Remove previous data & add new country name + border
                         document.getElementById('attrs').innerHTML = '';
                         document.getElementById('this_country').innerHTML = clickd + '<hr>'
                     }
+
+                    // Sort data by greatest difference descending & run create table function to display
                     var sortd = json.sort((a, b) => Math.abs(b.average - b.value) - Math.abs(a.average - a.value));
                     createTable(sortd);
                 }
                 else {
+
+                    // Country is not in our dataset, display country name & default message
                     document.getElementById('attrs').innerHTML = `No Spotify data for ${clickd}, please try another country.`
                     document.getElementById('this_country').innerHTML = clickd  
                 }
@@ -344,41 +403,55 @@ function createMarkers(polys, att) {
 
     
     if(att === null){
-        // First pass, draw map
+        
+        // Save layer to variable to remove in case user clicks a country before an attribute button
         c = borders;
+        // First pass, draw map
         createMap(borders);
     } else {
+
         // Update choropleth & legend on button press
         updateMap(borders, att);
     };
 };
 
+
 // Get country border polygon info from file & call draw marker function when received
 var polys = 'static/js/countries.geojson'
 d3.json(polys).then(function(data){
+
     // Save data for future references
     countryData = data;
+
     // Generate map
     createMarkers(data, null);
 });
+
 
 // Define button click function
 function buttonPressed(attribute){
 
     // Pass chosen attribute to our Flask app to get each country's data
     let url = `/attributes/${attribute}`
+
+    // Convert response to json
     fetch(url).then(response => response.json())
     .then(json => {
 
-        // Join JSON to existing GeoJSON data
+        // Create copy of country polygon data
         let joinedGJ = JSON.parse(JSON.stringify(countryData));
+
+        // Iterate through geojson
         for (let i = 0; i < joinedGJ.features.length; i++){
             const properties = joinedGJ.features[i].properties
+
+            // Append matching countries values if found
             joinedGJ.features[i].properties = {
                 ...properties,
                 ...json.find((item) => item.country === properties.ADMIN),
             }
         }
+
         // Update choropleth & legend w/new attribute
         createMarkers(joinedGJ, attribute);
     });
