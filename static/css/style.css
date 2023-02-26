@@ -6,12 +6,13 @@
 }
 
 #buttons {
+    margin-top: 10px;
     text-align: center;
     min-height: 50px;
 }
 
 #map {
-    height: 850px;
+    height: 830px;
     border: 2px solid;
     border-color: saddlebrown;
 }
@@ -22,7 +23,7 @@
     font: 32px 'Kodchasan', sans-serif;
     font-weight: bold;
     color: saddlebrown;
-    width: 74%;
+    width: 70%;
 }
 
 #home {
@@ -35,7 +36,7 @@
     font-weight: bold;
     color: saddlebrown;
     background-color: khaki;
-    width: 13%;
+    width: 15%;
 }
 
 #home:link {
@@ -74,14 +75,14 @@
 }
 
 th {
-    padding: 8px;
+    padding: 10px;
 }
 td {
     padding: 2px 5px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid darkkhaki;
 }
 tr:hover {
-    background-color: khaki;
+    background-color: palegoldenrod;
 }
 
 .legend {
