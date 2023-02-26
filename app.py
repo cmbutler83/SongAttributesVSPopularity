@@ -110,7 +110,7 @@ def getCountry(country):
 
         
         #create keys for the final dictionary
-        keys = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'valence', 'tempo', 'duration' ]
+        keys = ['Danceability', 'Energy', 'Loudness', 'Speechiness', 'Acousticness', 'Valence', 'Tempo', 'Duration' ]
 
         results_list = []
         i=0
