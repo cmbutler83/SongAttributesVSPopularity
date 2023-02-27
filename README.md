@@ -33,6 +33,9 @@ What truly makes a song popular? To answer this, analyzed the impact a song's at
 
 1. After all the data frames were created, we imported sqlite3 to create our database. Once sqlite was running, the dataframes were then converted into sql files, and tested to see if the file was working. 
 2. The tables for the database, songs_complete_db_sqlite, were coolness, country_attributes, fiftygenre. all_countries_top_50. Afterwards, primary keys were added to the table. (have image of ERD?) The primary key for country_attributes was 'country', the primary key for coolness were artist_names and track_name. The primary key for fiftygenre was artist_genre. The primary keys for top_50_by_country were artist_name, track_name, and country. 
+- - -
+![ERD Screenshot](static/Images/ERD_Songs_Complete_DB.png)
+- - - 
 
 ## **Part 3: Flask and SQLAlchemy to create App**
 
