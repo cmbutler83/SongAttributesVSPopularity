@@ -4,7 +4,6 @@
 - - -
 ## **Project Structure:**
 
-Completed Project Dashboard can be found 
 
 Relevant Files:
 - [App.py](app.py)
