@@ -14,6 +14,8 @@ Relevant Files:
 - Data_Exploration_Database_Creation
   - [Explore_Data.ipynb](Data_Exploration__Database_Creation/Explore_data.ipynb)
     - Cleaning initial dataset
+    - \*NOTE\* the file (final.csv) needed to run the Explore_Data notebook is too large to upload to GitHub. It can be downloaded [HERE](https://www.kaggle.com/datasets/yelexa/spotify200/download?datasetVersionNumber=1)
+    - Final.csv will need to be placed in the same folder as Explore_data.ipynb to run correctly
   - [Df_Creation_for_Tables.ipynb](Data_Exploration__Database_Creation/Df_creation_for_tables.ipynb)
     - calculating "Popularity Score"
     - creating SQLite database from cleaned csv files
