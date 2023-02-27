@@ -131,7 +131,11 @@ Relevant Files:
   - main javascript code [here](static/js/logic.js)
 
 [Iqra Imam](https://github.com/iimam07) 
-- what you did
+- Created initial readme structure and description
+- Created chart images through analysis (top 10 artists, top 50 genres, correlation chart for attributes) for the main page on the dashboard on   charts.ipnyb
+- Merged charts.ipynb to dashboard_img.ipynb
+  - [dashboard_img](Data_Exploration__Database_Creation/dashboard_img.ipynb)
+
 
 
 
