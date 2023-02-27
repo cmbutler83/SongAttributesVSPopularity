@@ -77,6 +77,7 @@ Popularity Score = ((average rank/highest rank of songs) + (average number of st
   - Song Attribute Distribution
   - Top 10 Songs in Spotify
   - Song Attribute Correlation Heatmap
+  - Top 50 Song Genres
 
 - - -
 
@@ -101,9 +102,9 @@ Popularity Score = ((average rank/highest rank of songs) + (average number of st
 
 # Things to Explore on the Map
 
-1. first thing
-2. second thing
-3. etc.
+1. Click through the eight buttons at the top to see a colormap of each song attribute
+2. Click on any country to view its most popular song attributes compared to the average for the whole dataset
+3. Which countries favor the fastest songs?  The longest ones?  The most happy or sad?  And so on.  You can pose any question you want and click around to your heart's content!
 
 ## Contributing Members
 
@@ -122,7 +123,10 @@ Popularity Score = ((average rank/highest rank of songs) + (average number of st
 - what you did 
 
 [Becky Klosowski](https://github.com/andcetera) 
-- what you didddd
+- All things Interactive Map functionality:
+  - [map.html](templates/map.html)
+  - [style.css](static/css/style.css)
+  - main javascript code [here](static/js/logic.js)
 
 [Iqra Imam](https://github.com/iimam07) 
 - what you did
