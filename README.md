@@ -3,6 +3,8 @@
 ![Dashboard Screenshot](static/Images/full_map_screenshot.png)
 - - -
 ## **Project Structure:**
+## **Background:**
+What truly makes a song popular? To answer this, analyzed the impact a song's attributes have on it's popularity. In order to do this, we looked at an dataset from Kaggle, Spotify Weekly Top 200, which is a dataset that contains songs from Spotify's 'Weekly Top Songs' for each country between 2021 to 2022. 
 
 
 Relevant Files:
@@ -28,8 +30,6 @@ Relevant Files:
 
 
 
-## **Background:**
-What truly makes a song popular? To answer this, analyzed the impact a song's attributes have on it's popularity. In order to do this, we looked at an dataset from Kaggle, Spotify Weekly Top 200, which is a dataset that contains songs from Spotify's 'Weekly Top Songs' for each country between 2021 to 2022. 
 
 
 ## **Part 1: Exploratory Data Analysis and creating Data Frames**
@@ -116,6 +116,7 @@ Popularity Score = ((average rank/highest rank of songs) + (average number of st
 - Dataframe and CSV Creation via Python/Pandas
   - [Df_Creation_for_Tables.ipynb](Data_Exploration__Database_Creation/Df_creation_for_tables.ipynb)
 - Designed and Calculated *Popularity Score*
+- ERD Creation/Edits
 
 [Christin Davis](https://github.com/christinamberdavis) 
 - what you did 
