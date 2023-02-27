@@ -39,13 +39,13 @@ Relevant Files:
 
 3. Since more than one attribute in the data represent in on a song's popularity, we had to create a way to quantify that data. Average rank in the top 200, average number of streams, and maximum weeks on chart all needed to be considered when determining a song's popularity. We created a "Popularity Score" that represented this data and ranked the data using this score. It was calculated as follows:
 
-Popularity Score = ((average rank/highest rank of songs) + (average number of streams/highest average of song streams) + (max weeks on chart of song/max weeks on chart of all songs))/3
+*Popularity Score = ((average rank/highest rank of songs) + (average number of streams/highest average of song streams) + (max weeks on chart of song/max weeks on chart of all songs))/3*
 
 4. These tables created were: 
-  - 'country_attributes', which looks at the songs and their attributes, and then groups them together by countries
-  - 'top_fifty_genres' which showed the top 50 genres based on the number of artists. 
-  - 'coolness' looks at the how popular a song is with it's rank, streams, weeks on the chart, and popularity score. 
-  - 'all_countries_top_fifty' looks at the top fifty songs for each country based on it's popularity.  These tables were then all exported to CSVs.
+   - 'country_attributes', which looks at the songs and their attributes, and then groups them together by countries
+   - 'top_fifty_genres' which showed the top 50 genres based on the number of artists. 
+   - 'coolness' looks at the how popular a song is with it's rank, streams, weeks on the chart, and popularity score. 
+   - 'all_countries_top_fifty' looks at the top fifty songs for each country based on it's popularity.  These tables were then all exported to CSVs.
 
 
 ## **Part 2: Converting the Databases to a sqlite database**
@@ -62,10 +62,10 @@ Popularity Score = ((average rank/highest rank of songs) + (average number of st
 1. To complete this, Flask and SQLalchemy were first imported, and an engine was created with 'songs_complete_db.sqlite'. Python was linked to the database by creating a SQLAlchemy session.
 
 2. Routes were created for:
-  - @app.route('/')
-  - @app.route('/map')
-  - @app.route('/attributes/<attribute>')
-  - @app.route('/countries/<country>')
+   - @app.route('/')
+   - @app.route('/map')
+   - @app.route('/attributes/<attribute>')
+   - @app.route('/countries/<country>')
 
 ## **Part 4: Create JavaScript for HTML**
 1. A geojson of country polygons was used to create choropleths for each song attribute by country.
@@ -73,11 +73,11 @@ Popularity Score = ((average rank/highest rank of songs) + (average number of st
 2. An infobox was created to display more detailed information for each country, ranking the song attributes in order of greatest difference between the countries top 50 songs average and the total average of the whole dataset per song attribute.
 
 3. Minor stylistic features were added to highlight user interactivity and allow the user to switch between the map and a static dashboard displaying other statistics:
-  - Top 10 Artists Worldwide
-  - Song Attribute Distribution
-  - Top 10 Songs in Spotify
-  - Song Attribute Correlation Heatmap
-  - Top 50 Song Genres
+   - Top 10 Artists Worldwide
+   - Song Attribute Distribution
+   - Top 10 Songs in Spotify
+   - Song Attribute Correlation Heatmap
+   - Top 50 Song Genres
 
 - - -
 
