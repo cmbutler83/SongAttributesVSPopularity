@@ -4,14 +4,29 @@
 - - -
 ## **Project Structure:**
 
-Completed Project Dashboard can be found HERE
+Completed Project Dashboard can be found 
 
-Files:
-- Jupyter Notebooks
+Relevant Files:
+- [App.py](app.py)
+  - Flask Application where all the magic comes together
+  - [CLICK HERE](#how-to-run-the-app) to see how to run the app
+- Data_Exploration_Database_Creation
+  - [Explore_Data.ipynb](Data_Exploration__Database_Creation/Explore_data.ipynb)
+    - Cleaning initial dataset
+  - [Df_Creation_for_Tables.ipynb](Data_Exploration__Database_Creation/Df_creation_for_tables.ipynb)
+    - calculating "Popularity Score"
+    - creating SQLite database from cleaned csv files
+  - [Dashboard_img.ipynb](Data_Exploration__Database_Creation/dashboard_img.ipynb)
+    - creating matplotlib diagrams for dashboard page
 - Resources
+  - csv files created from data
+  - [Songs_Complete_DB.sqlite](Resources/songs_complete_db.sqlite)
 - Static
-- Template
-- app.py
+  - images, css, and javascript files for app.py
+- Templates
+  - html templates for app.py
+
+
 
 
 ## **Background:**
@@ -66,9 +81,62 @@ Popularity Score = ((average rank/highest rank of songs) + (average number of st
 
 - - -
 
+## How to Run the App
+
+1. Clone the SongAttributesVSPopularity Repo to your computer.
+   - [How to Clone Github Repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+
+2. Open the SongAttributesVSPopularity folder in VS Code on your personal computer
+
+3. Navigate to the [App.py](app.py) file in the folder
+
+4. Right click on the file, pick "Run Python File in Terminal"
+
+5. Ctrl + click in your VS Code Terminal where you see the link "Running on http://...."
+
+6. A new browser window will open on our "Spotify Top Song Attributes Around the World" landing page.
+
+   *Here you can view a Summary of the Project and Dashboard Images representing different interesting aspects that we observed after analyzing the song dataset*
+
+7. Navigate to the button labeled " Interactive Map " at the top of the landing page to lead you to the interactive geographical representation of the database.
+
+# Things to Explore on the Map
+
+1. first thing
+2. second thing
+3. etc.
+
+## Contributing Members
+
+[Ankita Sarkar](https://github.com/Luckypal8) 
+- what you did
+
+[Crystal Butler](https://github.com/cmbutler83) 
+- Data Exploration and Cleaning
+  - [Explore_Data.ipynb](Data_Exploration__Database_Creation/Explore_data.ipynb)
+- Dataframe and CSV Creation via Python/Pandas
+  - [Df_Creation_for_Tables.ipynb](Data_Exploration__Database_Creation/Df_creation_for_tables.ipynb)
+- Designed and Calculated *Popularity Score*
+
+[Christin Davis](https://github.com/christinamberdavis) 
+- what you did 
+
+[Becky Klosowski](https://github.com/andcetera) 
+- what you did
+
+[Iqra Imam](https://github.com/iimam07) 
+- what you did
+
+
+
+
 ## Resources:
-Original dataset on [Kaggle](https://www.kaggle.com/datasets/yelexa/spotify200).  
-More information on the meanings of each song attribute can be found [here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-several-audio-features) and [here](https://www.kaggle.com/code/mohitkr05/spotify-data-visualization).  
-Country borders provided by [jalbertbowden](https://github.com/datasets/geo-countries) under the [Open Data Commons Public Domain Dedication and License](https://opendatacommons.org/licenses/pddl/1-0/).  
+Original dataset on Kaggle: [Spotify Weekly Top 200 Songs Streaming Data](https://www.kaggle.com/datasets/yelexa/spotify200)
+
+More information on the meanings of each song attribute can be found [here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-several-audio-features) and [here](https://www.kaggle.com/code/mohitkr05/spotify-data-visualization). 
+
+Country borders provided by [jalbertbowden](https://github.com/datasets/geo-countries) under the [Open Data Commons Public Domain Dedication and License](https://opendatacommons.org/licenses/pddl/1-0/)
+
 Choropleth library can be found [here](https://github.com/timwis/leaflet-choropleth/).  
+
 Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.
