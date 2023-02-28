@@ -9,7 +9,7 @@ What truly makes a song popular? To answer this, analyzed the impact a song's at
 
 Relevant Files:
 - [App.py](app.py)
-  - Flask Application where all the magic comes together
+  - Flask-based API that connects the front end to the database. 
   - [CLICK HERE](#how-to-run-the-app) to see how to run the app
 - Data_Exploration_Database_Creation
   - [Explore_Data.ipynb](Data_Exploration__Database_Creation/Explore_data.ipynb)
@@ -122,7 +122,11 @@ Relevant Files:
 - ERD Creation/Edits
 
 [Christin Davis](https://github.com/christinamberdavis) 
-- what you did 
+- Flask API
+  -[app.py](app.py)
+- Home page
+  -[index.html](templates/index.html)
+  -[style2.css](static/css/style2.css) Largely a copy of style.css by Becky (see below) with additions for the main page
 
 [Becky Klosowski](https://github.com/andcetera) 
 - All things Interactive Map functionality:
