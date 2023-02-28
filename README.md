@@ -111,7 +111,12 @@ Relevant Files:
 ## Contributing Members
 
 [Ankita Sarkar](https://github.com/Luckypal8) 
-- what you did
+- proposal write up
+- dashboard_img.ipynb - data analysis and produce histogram of attributes and top ten songs.
+- edited and exported the images from pandas for dashboard. 
+- converted the pandas dataframe to sqlite files and schema. 
+- structured blurbs and text
+
 
 [Crystal Butler](https://github.com/cmbutler83) 
 - Data Exploration and Cleaning
